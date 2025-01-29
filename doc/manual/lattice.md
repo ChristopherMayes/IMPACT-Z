@@ -1,5 +1,6 @@
 
-#### **3.1.2 Lattice Section**
+## Lattice Elements
+---
 
 Each line in this section represents a beamline element, except for lines starting with `!` (comments). Example:
 
@@ -8,8 +9,8 @@ Each line in this section represents a beamline element, except for lines starti
 0.05  3  1  1  16.44  0  1.0  0.  0.  0.  0.  0.  /
 ```
 
-Each beamline element type includes specific parameters:
 
+---
 ### 1. **Drift (Type 0)**
 
 #### **Description**
@@ -271,6 +272,10 @@ This means:
 - **Solenoid field strength** of **1.0 T**
 - No misalignment or rotation errors
 
+
+---
+
+
 ### **Traveling Wave RF Cavity (Type 106)**
 #### **Description**
 A **Traveling Wave RF Cavity** is an accelerating structure that operates with a traveling electromagnetic wave, rather than a standing wave. This type of cavity is commonly used in high-energy accelerators and linear colliders, where efficient and continuous acceleration is required.
@@ -341,6 +346,8 @@ This means:
 - **Field representation mode**: **1.0** (discrete data only), **2.0** (both discrete and analytical functions)
 - **Coordinate system**: **2.0** (Cartesian), **1.0** (Cylindrical)
 
+
+---
 
 
 ### **Centroid Shift (Element -1)**
