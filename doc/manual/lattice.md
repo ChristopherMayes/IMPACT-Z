@@ -16,7 +16,7 @@ Impact-Z has two types of integrator:
 
 
 ---
-### 1. **Drift (Type 0)**
+### **Drift (Type 0)**
 
 #### **Description**
 A **Drift** represents a straight beamline segment with no focusing or deflection forces. Particles travel freely without experiencing external fields.
@@ -39,7 +39,7 @@ This means:
 
 ---
 
-### 2. **Quadrupole (Type 1)**
+###  **Quadrupole (Type 1)**
 
 #### **Description**
 A **Quadrupole** provides transverse focusing using a magnetic field gradient. It focuses in one transverse plane while defocusing in the other.
@@ -69,7 +69,7 @@ This means:
 
 ---
 
-### 3. **Solenoid (Type 3)**
+###  **Solenoid (Type 3)**
 
 #### **Description**
 A **Solenoid** provides focusing in both transverse planes using a helical magnetic field. It is commonly used in linacs and electron beam transport.
@@ -100,7 +100,7 @@ This means:
 
 ---
 
-### 4. **Dipole (Type 4)**
+###  **Dipole (Type 4)**
 
 #### **Description**
 A **Dipole** bends the beam trajectory by applying a uniform transverse magnetic field. It is used in beam steering and spectrometers.
@@ -134,11 +134,38 @@ This means:
 - No misalignment or rotation errors
 
 
+---
+
+
+###  **Thick Multipole (Type 5)**
+
+`Warning: previously undocumented!!`
+
+#### **Description**
+The **Thick Multipole** element represents a higher-order magnetic field component used for beam focusing and correction. It allows for modeling of **sextupole, octupole, and decapole** fields with **finite length** and **numerically integrated field maps**. This element is useful for chromatic correction, beam shaping, and nonlinear optics studies.
+
+#### **Attributes**
+1. **Length (m)** – Specifies the physical length of the multipole.
+2. **Steps (int)** – Number of **space-charge kicks** applied through the element.
+3. **Map Steps (int)** – Number of numerical integration steps used to compute the element’s transfer map.
+4. **Multipole Type** – Defines the type of multipole:
+   - `2`: `Sextupole`
+   - `3`: `Octupole`
+   - `4`: `Decapole`
+5. **Field Strength (T/mⁿ, optional)** – The strength of the applied magnetic field.
+6. **File ID (optional)** – Identifier for an external input data file. (TODO: ???)
+7. **Radius (m, optional)** – The radius of the multipole aperture.
+8. **X Misalignment (m)** – Displacement in the x-direction.
+9. **Y Misalignment (m)** – Displacement in the y-direction.
+10.  **X Rotation (rad)** – Rotation about the x-axis.
+11.  **Y Rotation (rad)** – Rotation about the y-axis.
+12.  **Z Rotation (rad)** – Rotation about the z-axis.
+
 
 ---
 
 
-### 4. **Drift Tube Linac (DTL, Type 101)**
+###  **Drift Tube Linac (DTL, Type 101)**
 #### **Description**
 A **Drift Tube Linac (DTL)** is an RF accelerating structure that provides acceleration with periodic quadrupole focusing. It operates at radio frequencies and is typically used in low to medium energy accelerators.
 
@@ -161,7 +188,7 @@ A **Drift Tube Linac (DTL)** is an RF accelerating structure that provides accel
 
 ---
 
-### 5. **Coupled Cavity Drift Tube Linac (CCDTL, Type 102)**
+###  **Coupled Cavity Drift Tube Linac (CCDTL, Type 102)**
 #### **Description**
 A **CCDTL** is a hybrid structure combining the features of a DTL and a Coupled Cavity Linac (CCL), providing acceleration with improved efficiency over traditional DTLs.
 
@@ -185,7 +212,7 @@ A **CCDTL** is a hybrid structure combining the features of a DTL and a Coupled 
 
 ---
 
-### 6. **Coupled Cavity Linac (CCL, Type 103)**
+###  **Coupled Cavity Linac (CCL, Type 103)**
 #### **Description**
 A **CCL** is a high-energy RF accelerating structure with multiple coupled cavities, used in the medium to high energy range of particle accelerators.
 
@@ -215,9 +242,13 @@ This means:
 - **Pipe radius** of **0.014 m**
 - No misalignment or rotation errors
 
+
+
+
+
 ---
 
-### 5. **Superconducting RF Cavity (Type 104)**
+###   **Superconducting RF Cavity (Type 104)**
 
 #### **Description**
 A **Superconducting RF Cavity** accelerates particles using oscillating electromagnetic fields. It is used in high-energy accelerators for efficient acceleration.
