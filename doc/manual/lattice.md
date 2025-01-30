@@ -9,6 +9,11 @@ Each line in this section represents a beamline element, except for lines starti
 0.05  3  1  1  16.44  0  1.0  0.  0.  0.  0.  0.  /
 ```
 
+Impact-Z has two types of integrator:
+- `map`: (linear?) map-based methods
+- `rk`: "nonlinear Lorentz", i.e. Runge-Kutta integration of the Lorentz force.
+
+
 
 ---
 ### 1. **Drift (Type 0)**
@@ -128,39 +133,6 @@ This means:
 - **Half gap** of **0.014 m**
 - No misalignment or rotation errors
 
----
-
-### 5. **Superconducting RF Cavity (Type 104)**
-
-#### **Description**
-A **Superconducting RF Cavity** accelerates particles using oscillating electromagnetic fields. It is used in high-energy accelerators for efficient acceleration.
-
-#### **Attributes**
-1. **Length (m)** – Specifies the cavity length.
-2. **Integration Steps** – Number of integration steps across the element.
-3. **Map Steps** – Number of steps to calculate the transfer map.
-4. **Element Type** – Set to `104` for Superconducting Cavity.
-5. **Field Scaling** – Scales the RF field strength.
-6. **RF Frequency (Hz)** – Operating frequency of the cavity.
-7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
-9. **Pipe Radius (m)** – Defines the cavity aperture.
-10. **Misalignment Errors (x, y) (m)** – Defines position errors.
-11. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
-
-
-
-#### **Example**
-`0.948049 80 1 104 34000000.0 650000000.0 96.8056476853 1 1.0 /`
-
-This means:
-- A **superconducting cavity** of length **0.948 m**
-- **80 integration steps**
-- **1 map step**
-- **Field scaling** of **34,000,000**
-- **RF frequency** of **650 MHz**
-- **Driven phase** of **96.8°**
-- No misalignment or rotation errors
 
 
 ---
@@ -178,8 +150,10 @@ A **Drift Tube Linac (DTL)** is an RF accelerating structure that provides accel
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
-9. **Pipe Radius (m)** – Defines the cavity aperture.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `ID`<0: use simple sinisoidal model, only for `map` integrator, with `phase=0` giving maximum energy gain ("on-crest").
+   - `ID`>0: read `fort.ID` file with Fourier coefficients, only for `rk` integrator
+10. **Pipe Radius (m)** – Defines the cavity aperture.
 
 #### **Example**
 `1.48524 10 20 101 1.0 700.0e6 30. 1.0 0.014 /`
@@ -199,7 +173,9 @@ A **CCDTL** is a hybrid structure combining the features of a DTL and a Coupled 
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `ID`<0: use simple sinisoidal model, only for `map` integrator, with `phase=0` giving maximum energy gain ("on-crest").
+   - `ID`>0: read `fort.ID` file with Fourier coefficients, only for `rk` integrator
 9. **Pipe Radius (m)** – Defines the cavity aperture.
 
 #### **Example**
@@ -221,7 +197,9 @@ A **CCL** is a high-energy RF accelerating structure with multiple coupled cavit
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `ID`<0: use simple sinisoidal model, only for `map` integrator, with `phase=0` giving maximum energy gain ("on-crest").
+   - `ID`>0: read `fort.ID` file with Fourier coefficients, only for `rk` integrator
 9. **Pipe Radius (m)** – Defines the cavity aperture.
 
 #### **Example**
@@ -237,6 +215,41 @@ This means:
 - **Pipe radius** of **0.014 m**
 - No misalignment or rotation errors
 
+---
+
+### 5. **Superconducting RF Cavity (Type 104)**
+
+#### **Description**
+A **Superconducting RF Cavity** accelerates particles using oscillating electromagnetic fields. It is used in high-energy accelerators for efficient acceleration.
+
+#### **Attributes**
+1. **Length (m)** – Specifies the cavity length.
+2. **Integration Steps** – Number of integration steps across the element.
+3. **Map Steps** – Number of steps to calculate the transfer map.
+4. **Element Type** – Set to `104` for Superconducting Cavity.
+5. **Field Scaling** – Scales the RF field strength.
+6. **RF Frequency (Hz)** – Operating frequency of the cavity.
+7. **Driven Phase (°)** – The phase at which the cavity operates.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `ID`<0: use simple sinisoidal model, only for `map` integrator, with `phase=0` giving maximum energy gain ("on-crest").
+   - `ID`>0: read `fort.ID` file with Fourier coefficients, only for `rk` integrator
+9. **Pipe Radius (m)** – Defines the cavity aperture.
+10. **Misalignment Errors (x, y) (m)** – Defines position errors.
+11. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
+
+
+
+#### **Example**
+`0.948049 80 1 104 34000000.0 650000000.0 96.8056476853 1 1.0 /`
+
+This means:
+- A **superconducting cavity** of length **0.948 m**
+- **80 integration steps**
+- **1 map step**
+- **Field scaling** of **34,000,000**
+- **RF frequency** of **650 MHz**
+- **Driven phase** of **96.8°**
+- No misalignment or rotation errors
 
 ---
 
@@ -252,7 +265,9 @@ A **Solenoid with RF Cavity** is a hybrid structure that combines a solenoid mag
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `rk` integrator only
+   - Requires `ID`>0: read `fort.ID` file with Fourier coefficients
 9. **Pipe Radius (m)** – Defines the cavity aperture.
 10. **Misalignment Errors (x, y) (m)** – Defines position errors.
 11. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
@@ -288,12 +303,14 @@ A **Traveling Wave RF Cavity** is an accelerating structure that operates with a
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
+8. **Input Field File ID** - must be `1`.
 9. **Pipe Radius (m)** – Defines the cavity aperture.
 10. **Misalignment Errors (x, y) (m)** – Defines position errors.
 11. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
 12. **Phase Advance Parameter** – Controls phase difference between sections of the cavity.
-13. **Wakefield Parameters** – Aperture size, gap size, and length for wakefield calculations.
+13. **Wakefield Aperture (m)** - aperture for the wakefield calc
+14. **Wakefield gap (m)**  - gap for the wakefield calc
+15. **Wakefield length (m)**: - lenght for the wakefield calc. The wakefield is disabled if this is zero.
 
 #### **Example**
 `1.48524 10 20 106 1.0 700.0e6 30. 1.0 0.014 0. 0. 0. 0. 0. 0.5 0. 0. 0. /`
@@ -322,7 +339,7 @@ A **User-Defined RF Cavity** allows for customized RF field definitions using ei
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** – Determines whether an external field file is used.
+8. **Input Field File `ID`** – Read the 3D Cartesian field data from `fort.ID`
 9. **X Radius (m)** – Defines the cavity aperture in the X-direction.
 10. **Y Radius (m)** – Defines the cavity aperture in the Y-direction.
 11. **Misalignment Errors (x, y) (m)** – Defines position errors.
@@ -345,6 +362,10 @@ This means:
 - No misalignment or rotation errors
 - **Field representation mode**: **1.0** (discrete data only), **2.0** (both discrete and analytical functions)
 - **Coordinate system**: **2.0** (Cartesian), **1.0** (Cylindrical)
+
+*TODO*: description of the field file fomat.
+
+
 
 
 ---
