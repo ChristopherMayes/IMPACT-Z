@@ -334,7 +334,9 @@ A **Traveling Wave RF Cavity** is an accelerating structure that operates with a
 5. **Field Scaling** – Scales the RF field strength.
 6. **RF Frequency (Hz)** – Operating frequency of the cavity.
 7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File ID** - must be `1`.
+8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+   - `rk` integrator only
+   - Requires `ID`>0: read `fort.ID` file with Fourier coefficients
 9. **Pipe Radius (m)** – Defines the cavity aperture.
 10. **Misalignment Errors (x, y) (m)** – Defines position errors.
 11. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
