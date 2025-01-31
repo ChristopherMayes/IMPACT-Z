@@ -10,9 +10,9 @@ The file **`fort.18`** contains data related to the reference particle along the
 
 1. **Distance (m)** - Longitudinal position along the beamline.
 2. **Absolute Phase (radian)** - Phase of the reference particle relative to the RF wave.
-3. **Gamma** - Lorentz factor, defined as $ \gamma = \frac{E}{m_0 c^2} $.
-4. **Kinetic Energy (MeV)** - Energy of the reference particle excluding rest mass energy.
-5. **Beta** - Relativistic velocity factor, $ \beta = v/c $.
+3. **Gamma** - Reference Lorentz factor, defined as $ \gamma_0 = \frac{E_0}{m_0 c^2} $.
+4. **Reference Kinetic Energy (MeV)** - Energy of the reference particle excluding rest mass energy: $E_0 - m_0 c^2$.
+5. **Beta** - Reference Relativistic velocity factor, $ \beta_0 = v_0/c $.
 6. **Rmax (m)** - Maximum radial distance from the beam axis.
 
 
@@ -61,7 +61,7 @@ The file **`fort.26`** contains RMS size information for the Z-plane (longitudin
 1. **Z Distance (m)** - Longitudinal position along the beamline.
 2. **Centroid Location (m)** - Mean position of the beam in the Z-plane.
 3. **RMS Size (degrees)** - Root mean square (RMS) size in degrees.
-4. **Centroid Momentum (MeV)** - Mean energy of the beam in MeV.
+4. **Centroid Momentum (MeV)** $E_0 - E$ in MeV, where $E_0$ is the reference energy and $E$ is the centroid energy.
 5. **RMS Momentum (MeV)** - RMS energy deviation in MeV.
 6. **Twiss Parameter, Alpha** - Twiss alpha parameter for the Z-plane.
 7. **Normalized RMS Emittance (degree-MeV)** - Normalized RMS emittance in degree-MeV.
