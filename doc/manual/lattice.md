@@ -13,6 +13,11 @@ Impact-Z has two types of integrator:
 - `map`: (linear?) map-based methods
 - `rk`: "nonlinear Lorentz", i.e. Runge-Kutta integration of the Lorentz force.
 
+---
+### General Notes
+
+- all File `ID` must be less than 1000
+
 
 
 ---
