@@ -49,7 +49,9 @@ A **Quadrupole** provides transverse focusing using a magnetic field gradient. I
 2. **Integration Steps** – Number of integration steps across the element.
 3. **Map Steps** – Number of steps to calculate the transfer map.
 4. **Element Type** – Set to `1` for Quadrupole.
-5. **Gradient (Tesla/m)** – Quadrupole focusing strength.
+5. **Field Strength** – Quadrupole focusing strength.
+   - `map` integrator: $k_1$ in 1/m$^2$
+   - `rk` integrator:  $dB_y/dx$ in T/m
 6. **Input Gradient File ID** – Determines whether an external gradient file is used.
 7. **Pipe Radius (m)** – Defines the pipe boundary.
 8. **Misalignment Errors (x, y) (m)** – Defines position errors.
@@ -221,13 +223,13 @@ A **CCL** is a high-energy RF accelerating structure with multiple coupled cavit
 2. **Integration Steps** – Number of integration steps across the element.
 3. **Map Steps** – Number of steps to calculate the transfer map.
 4. **Element Type** – Set to `103` for CCL.
-5. **Field Scaling** – Scales the RF field strength.
-6. **RF Frequency (Hz)** – Operating frequency of the cavity.
-7. **Driven Phase (°)** – The phase at which the cavity operates.
-8. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
+5. **Field Scaling** – Scales the RF field strength. For `ID` < 0 (map inegrator), this is the average gradient in V/m.
+7. **RF Frequency (Hz)** – Operating frequency of the cavity.
+8. **Driven Phase (°)** – The phase at which the cavity operates.
+9. **Input Field File `ID`**: `int` – Determines whether an external field file is used.
    - `ID`<0: use simple sinisoidal model, only for `map` integrator, with `phase=0` giving maximum energy gain ("on-crest").
    - `ID`>0: read `fort.ID` file with Fourier coefficients, only for `rk` integrator
-9. **Pipe Radius (m)** – Defines the cavity aperture.
+10. **Pipe Radius (m)** – Defines the cavity aperture.
 
 #### **Example**
 `1.48524 10 20 103 1.0 700.0e6 30. 1.0 0.014 /`
@@ -776,25 +778,6 @@ This means:
 
 
 ---
-
-### **CSR Effects Calculation (Element -40)**
-#### **Description**
-The **CSR (Coherent Synchrotron Radiation) Effects Calculation** element is used to enable the computation of **CSR wakefields** in the simulation. This effect is important in **high-brightness electron beams** undergoing strong longitudinal compression, such as in magnetic chicanes.
-
-#### **Attributes**
-1. **Element Type** – Set to `-40` for CSR Effects Calculation.
-2. **CSR Wake Calculation Mode** – Determines the method used for calculating CSR effects.
-   - `0`: CSR effects **disabled**.
-   - `1`: 1D CSR **steady-state** calculation.
-   - `2`: 1D CSR **transient** calculation.
-3. **Smoothing Parameter** – A factor controlling numerical smoothing of the CSR wake.
-
-#### **Example**
-`0 0 0 -40 1 0.05 /`
-
-This means:
-- **CSR effects are enabled** using **1D steady-state CSR calculations**.
-- **Smoothing parameter** is set to **0.05** to control numerical noise.
 
 
 ---
