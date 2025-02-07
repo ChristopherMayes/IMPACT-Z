@@ -119,13 +119,16 @@ A **Dipole** bends the beam trajectory by applying a uniform transverse magnetic
 4. **Element Type** – Set to `4` for Dipole.
 5. **Bending Angle (rad)** – The angle through which the dipole bends the beam.
 6. **Quadrupole Component (k1)** – Adjusts the focusing strength.
-7. **Input Switch** – Determines additional physics options.
-8. **Half Gap (m)** – Defines the physical aperture of the dipole.
-9. **Pole Face Angles (Entrance, Exit) (rad)** – Defines entrance and exit angles.
-10. **Curvature (Entrance, Exit)** – Determines field falloff at pole faces.
-11. **Integrated Fringe Field** – Determines the effect of fringe fields.
-12. **Misalignment Errors (x, y) (m)** – Defines position errors.
-13. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
+7. **Input Switch `icsr`** – Determines additional physics options.
+   - `icsr<= 200`: no CSR
+   - `200 < icsr <=500`: CSR in the bend
+   - `icsr > 500`: CSR in the bend and the next following drift (Impact-Z V2.4+)
+9. **Half Gap (m)** – Defines the physical aperture of the dipole.
+10. **Pole Face Angles (Entrance, Exit) (rad)** – Defines entrance and exit angles.
+11. **Curvature (Entrance, Exit)** – Determines field falloff at pole faces.
+12. **Integrated Fringe Field** – Determines the effect of fringe fields.
+13. **Misalignment Errors (x, y) (m)** – Defines position errors.
+14. **Rotation Errors (x, y, z) (rad)** – Defines orientation errors.
 
 
 
