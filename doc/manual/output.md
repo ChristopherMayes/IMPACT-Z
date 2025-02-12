@@ -109,7 +109,7 @@ The file **`fort.27`** contains the maximum amplitude information for various be
 
 ## Maximum amplitude information (`fort.27`, `diagnostic=2`)
 
-The file **`fort.27`** contains the maximum amplitude information for various beam parameters. Not
+The file **`fort.27`** contains the maximum amplitude information for various beam parameters.
 
 #### Column Descriptions:
 
