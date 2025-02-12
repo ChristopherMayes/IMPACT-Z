@@ -182,9 +182,9 @@ The file **`fort.29`** with `diagnostic=2`contains radius moments of the beam di
 
 ---
 
-## Cubic Root of 3rd Moments of the Beam Distribution (`fort.30`, `diagnostic=1`)
+## Fourth Root of 4th Moments of the Beam Distribution (`fort.30`, `diagnostic=1`)
 
-The file **`fort.30`** with `diagnostic=1` contains the cubic root of the third moments of the beam distribution.
+The file **`fort.30`** with `diagnostic=1` contains the fourth root of the fourth moments of the beam distribution.
 
 Here  $ M_4(x) \equiv\left< (x-\left< x \right>)^4 \right>^{1/4} $, averaging over all particles.
 
@@ -198,7 +198,9 @@ Here  $ M_4(x) \equiv\left< (x-\left< x \right>)^4 \right>^{1/4} $, averaging ov
 2. `moment4_phase`: fourth root of the third moment of the phase $M_4(\phi)$ (deg??)
 3. `moment4_energy` - fourth root of the energy $M_4(E)$ (MeV)
 
-### Number of Particles for Each Charge State (`fort.32`)
+---
+
+## Number of Particles for Each Charge State (`fort.32`)
 
 The file **`fort.32`** contains information on the number of particles for each charge state at different positions along the beamline.
 
