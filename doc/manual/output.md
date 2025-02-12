@@ -35,7 +35,7 @@ The file **`fort.24`** contains RMS size information for the $x$-plane.
 4. `mean_px_over_p0`: Mean transverse momentum $p_x/p_0$  (rad)
 5. `sigma_px_over_p0`: RMS transverse momentum $\sigma_{p_x}/p_0$ (rad)
 6. `twiss_alpha_x`: Twiss alpha parameter in the $x$-plane (dimensionless)
-7. `norm_emit_x` - Normalized RMS horizontal emittance (meter-rad)
+7. `norm_emit_x`: Normalized RMS horizontal emittance (meter-rad)
 
 If `diagnostic=2`, there are additional columns:
 
@@ -58,7 +58,7 @@ The file **`fort.25`** contains RMS size information for the $y$-plane.
 4. `mean_py_over_p0`: Mean transverse momentum $p_y/p_0$ (rad)
 5. `sigma_py_over_p0`: RMS transverse momentum $\sigma_{p_y}/p_0$ (rad)
 6. `twiss_alpha_y`: Twiss alpha parameter in the $y$-plane (dimensionless)
-7. `norm_emit_y` - Normalized RMS vertical mittance in meters-radians (meter-rad)
+7. `norm_emit_y`: Normalized RMS vertical mittance in meters-radians (meter-rad)
 
 If `diagnostic=2`, there are additional columns:
 
@@ -79,8 +79,8 @@ The file **`fort.26`** contains RMS size information for the $z$-plane (longitud
 3. `sigma_phase_deg`: Root mean square (RMS) size (degrees)
 4. `neg_delta_mean_energy`: $E_0 - E$ where $E_0$ is the reference energy and $E$ is the centroid energy (MeV)
 5. `sigma_energy`: RMS energy deviation in (MeV)
-6. `twiss_alpha_z` - Twiss alpha parameter for the $z$-plane (dimensionless)
-7. `norm_emit_z` - Normalized RMS emittance in (degree-MeV)
+6. `twiss_alpha_z`: Twiss alpha parameter for the $z$-plane (dimensionless)
+7. `norm_emit_z`: Normalized RMS emittance in (degree-MeV)
 
 If `diagnostic=2`, there are additional columns:
 
@@ -103,7 +103,7 @@ The file **`fort.27`** contains the maximum amplitude information for various be
 2. `max_abs_y`:  Maximum vertical displacement from the beam axis $\max(|y|)$ (meters)
 3. `max_abs_py_over_p0`:  Maximum $y$-plane transverse momentum $\max(|p_y/p_0|)$ (rad)
 6. `max_phase`:  Maximum deviation in phase (deg???)
-7. `max_energy_dev` - Maximum deviation in particle energy (MeV)
+7. `max_energy_dev`: Maximum deviation in particle energy (MeV)
 
 ---
 
@@ -119,7 +119,7 @@ The file **`fort.27`** contains the maximum amplitude information for various be
 2. `max_abs_y`:  Maximum vertical displacement from the beam axis $\max(|y|)$ (meters)
 3. `max_abs_gammabeta_y`:  Maximum $x$-plane transverse momentum $\max(|\gamma\beta_y|)$ (dimensionless)
 6. `max_phase`:  Maximum deviation in phase (deg???)
-7. `max_abs_gamma` - Maximum deviation in relativistic gamma $\max(|\gamma - \gamma_0)|)$ (dimensionless)
+7. `max_abs_gamma`: Maximum deviation in relativistic gamma $\max(|\gamma - \gamma_0)|)$ (dimensionless)
 
 ---
 
@@ -152,11 +152,11 @@ Here  $ M_3(x) \equiv\left< (x-\left< x \right>)^3 \right>^{1/3} $, averaging ov
 
 1. `z`: longitudinal position along the beamline (meters)
 2. `moment3_x`: Cubic root of the third moment of the horizontal position $M_3(x)$ (meters)
-3. `moment3_px_over_p0` - Cubic root of the third moment of the horizontal momentum $M_3(p_x/p_0)$ (rad)
+3. `moment3_px_over_p0`: Cubic root of the third moment of the horizontal momentum $M_3(p_x/p_0)$ (rad)
 2. `moment3_y`: Cubic root of the third moment of the vertical position $M_3(y)$ (meters)
-3. `moment3_py_over_p0` - Cubic root of the third moment of the vertical momentum $M_3(p_y/p_0)$ (rad)
+3. `moment3_py_over_p0`:  Cubic root of the third moment of the vertical momentum $M_3(p_y/p_0)$ (rad)
 2. `moment3_phase`: Cubic root of the third moment of the phase $M_3(\phi)$ (deg??)
-3. `moment3_energy` - Cubic root of the energy $M_3(E)$ (MeV)
+3. `moment3_energy`: Cubic root of the energy $M_3(E)$ (MeV)
 
 ---
 ## Radius of the Beam Distribution (`fort.29`, `diagnostic=2`)
@@ -192,11 +192,11 @@ Here  $ M_4(x) \equiv\left< (x-\left< x \right>)^4 \right>^{1/4} $, averaging ov
 
 1. `z`: longitudinal position along the beamline (meters)
 2. `moment4_x`: fourth root of the third moment of the horizontal position $M_4(x)$ (meters)
-3. `moment4_px_over_p0` - fourth root of the third moment of the horizontal momentum $M_4(p_x/p_0)$ (rad)
+3. `moment4_px_over_p0`: fourth root of the third moment of the horizontal momentum $M_4(p_x/p_0)$ (rad)
 2. `moment4_y`: fourth root of the third moment of the vertical position $M_4(y)$ (meters)
-3. `moment4_py_over_p0` - fourth root of the third moment of the vertical momentum $M_4(p_y/p_0)$ (rad)
+3. `moment4_py_over_p0`: fourth root of the third moment of the vertical momentum $M_4(p_y/p_0)$ (rad)
 2. `moment4_phase`: fourth root of the third moment of the phase $M_4(\phi)$ (deg??)
-3. `moment4_energy` - fourth root of the energy $M_4(E)$ (MeV)
+3. `moment4_energy`: fourth root of the energy $M_4(E)$ (MeV)
 
 ---
 
