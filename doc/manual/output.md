@@ -9,7 +9,7 @@
 
 The file **`fort.18`** contains data related to the reference particle along the beamline.
 
-Note that $p_0 = \sqrt{E_0^2 - (m_0 c^2)^2}$ is the reference momentum that is used in other output files.
+Note that $p_0 = \sqrt{E_0^2 - (m_0 c^2)^2} / c$ is the reference momentum that is used in other output files.
 
 #### Column Descriptions:
 
