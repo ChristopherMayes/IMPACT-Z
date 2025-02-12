@@ -33,7 +33,7 @@ The file **`fort.24`** contains RMS size information for the $x$-plane.
 2. `mean_x`: Mean position of the beam in the X-plane (meters)
 3. `sigma_x`: Root mean square (RMS) size (meters)
 4. `mean_px_over_p0`: Mean transverse momentum $p_x/p_0$  (rad)
-5. `sigma_px_over_p0`: RMS transverse momentum $\sigma_{p_x}/p_0$i(rad)
+5. `sigma_px_over_p0`: RMS transverse momentum $\sigma_{p_x}/p_0$ (rad)
 6. `twiss_alpha_x`: Twiss alpha parameter in the $x$-plane (dimensionless)
 7. `norm_emit_x` - Normalized RMS horizontal emittance (meter-rad)
 
