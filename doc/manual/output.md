@@ -119,7 +119,7 @@ The file **`fort.27`** contains the maximum amplitude information for various be
 2. `max_abs_y`:  Maximum vertical displacement from the beam axis $\max(|y|)$ (meters)
 3. `max_abs_gammabeta_y`:  Maximum $x$-plane transverse momentum $\max(|\gamma\beta_y|)$ (dimensionless)
 6. `max_phase`:  Maximum deviation in phase (deg???)
-7. `max_abs_gamma`: Maximum deviation in relativistic gamma $\max(|\gamma - \gamma_0)|)$ (dimensionless)
+7. `max_gamma_rel`: Maximum deviation in relativistic gamma $\max(|\gamma - \gamma_0)|)$ (dimensionless)
 
 ---
 
