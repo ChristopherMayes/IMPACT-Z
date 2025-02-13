@@ -171,12 +171,7 @@ The file **`fort.29`** with `diagnostic=2`contains radius moments of the beam di
 4. `mean_r_90percent`: 90 percent mean radius (meters)
 5. `mean_r_95percent`: 95 percent mean radius (meters)
 6. `mean_r_99percent`: 99 percent mean radius (meters)
-7. `max_r`: maximum radius (meters)
-
-
----
-
-
+7. `max_r_rel`: maximum radius relative to the ($x$, $y$) center of the bunch (meters)
 
 
 
