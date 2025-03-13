@@ -677,7 +677,7 @@ The **Beam Collimation** element is used to **collimate (truncate)** the beam ba
    - **Ymax (m)** – Maximum allowed Y position.
 
 #### **Example**
-`0 0 0 -13 0.014 -0.02 0.02 -0.04 0.04 /`
+0.0 0 1 -14 0.1 -1.0 /  (neg turn off, 2.0 turn on)
 
 This means:
 - **Beam collimation is applied** using a **rectangular aperture**.
@@ -685,6 +685,23 @@ This means:
 - **X limits**: **-0.02 m to 0.02 m**.
 - **Y limits**: **-0.04 m to 0.04 m**.
 - Particles **outside these limits are removed** from the simulation.
+
+
+### **Space Charge Switch (Element -14)**
+#### **Description**
+
+
+#### **Attributes**
+1. `length`, must be `0`
+2. unused
+3. unused
+4. `type`, must be `-14`
+5. unused
+6. `sc_on`: >0=> Turn space charge on, `<= 0` => turn space charge off
+
+
+#### **Example**
+`0 0 0 -14 0 -1.0 /  (<=0 to turn off, 2.0 turn on)
 
 
 ---
@@ -740,40 +757,31 @@ This means:
 
 ---
 
-### **Phase Space Randomization (Element -21)**
+### **Centroid Shift (Element -21)**
 #### **Description**
-The **Phase Space Randomization** element applies **random perturbations** to all six phase-space coordinates (**X, Px, Y, Py, Z, Pz**). This is useful for modeling effects such as beam jitter, scattering, or thermal fluctuations.
+
+“
+-21” shift the beam centroid in 6D phase space. e.g.0. 0 0 -21 0.014 0.02 0.02 0.02 0.02 0.02 0.02
+/ radius=0.014m (not used), xshift=0.02m,pxshift=0.02rad,yshift=0.02m,pyshift=0.02rad,
+zshift=0.02deg,pzshift=0.02MeV.
+
 
 #### **Attributes**
-1. **Element Type** – Set to `-21` for Phase Space Randomization.
-2. **Pipe Radius (m)** – Defines the beam pipe boundary (not used in calculations but included for reference).
-3. **Randomization Parameters:**
-   - **ΔX (m)** – Random displacement in X.
-   - **ΔPx (mc)** – Random variation in Px.
-   - **ΔY (m)** – Random displacement in Y.
-   - **ΔPy (mc)** – Random variation in Py.
-   - **ΔZ (rad)** – Random displacement in Z.
-   - **ΔPz (mc²)** – Random variation in Pz.
 
 #### **Example**
-`0 0 0 -21 0.014 0.001 0.002 0.0015 0.0025 0.003 0.004 /`
 
-This means:
-- **Random perturbations** are applied to **all six phase-space coordinates**.
-- **Pipe radius** is **0.014 m** (not used in calculations but included for reference).
-- **Random displacements**:
-  - **X**: **±0.001 m**
-  - **Px**: **±0.002 mc**
-  - **Y**: **±0.0015 m**
-  - **Py**: **±0.0025 mc**
-  - **Z**: **±0.003 rad**
-  - **Pz**: **±0.004 mc²**
 
 
 ---
-### **Beam Dump (Element -25)**
+### **Change Integrator (Element -25)**
 #### **Description**
-The **Beam Dump** element is used to **completely remove all particles** from the simulation. This effectively terminates the beam at a specific location, simulating an absorber or a beamline stop.
+
+“
+-25” switch the integrator type using the “bmpstp” the 3rd number of line. hift the beam centroid
+in 6D phase space. e.g.0. 0 1 -25 0.01 / radius=0.01m (not used), use linear map integrator, 0. 0 2 -
+25 0.01 / use the nonlinear Lorentz integrator for complicated external fields where transfer maps
+are not available.
+
 
 #### **Attributes**
 1. **Element Type** – Set to `-25` for Beam Dump.
@@ -782,65 +790,76 @@ The **Beam Dump** element is used to **completely remove all particles** from th
 `0 0 0 -25 /`
 
 This means:
-- **All particles are removed** from the simulation at this point.
+
+
+
 
 
 ---
 
-
----
-
-### **CSR Track Length Setting (Element -41)**
+### **Longitudinal kick (Element -40)**
 #### **Description**
-The **CSR Track Length Setting** element defines the **tracking length for Coherent Synchrotron Radiation (CSR) effects**. It sets a finite distance over which CSR wakefields are computed, allowing control over the accuracy and computational efficiency of CSR simulations.
+
+“
+-40” kick the beam longitudinally by the rf nonlinearity (the linear part has been included in the
+map integrator and substracted.) drange(3) - vmax (V), drange(4) - phi0 (degree), drange(5) - harm
+number of rf. e.g.0. 0 0 -40 0.014 1.e6 -60.0 1 / radius=0.014m (not used), maximum voltage =
+1.0e6 eV,
+-60 degrees, and harmonic number (with respect to reference frequency) = 1.
 
 #### **Attributes**
-1. **Element Type** – Set to `-41` for CSR Track Length Setting.
-2. **Tracking Length (m)** – The distance over which CSR wakefields are computed.
+
 
 #### **Example**
-`0 0 0 -41 5.0 /`
-This means:
-- **CSR wakefields are computed over a tracking length of 5.0 meters**.
+
 
 
 ---
-### **Longitudinal Space Charge Calculation (Element -52)**
+### **Longitudinal Wakefield (Element -41)**
 #### **Description**
-The **Longitudinal Space Charge Calculation** element enables the computation of **space charge effects** in the longitudinal direction. This effect is crucial for accurately modeling beams with high charge densities, especially in low-energy regimes.
+“
+-41” read-in RF cavity structure wakefield from rfdata41.in. e.g. 0.0 0 1 -41 1.0 41 1.0 /
+Or 0.0 0 1 -41 1.0 41 -1.0 / “1.0” not used, “41” is the file ID, “1.0” turn on or "
+-1.0" turn off RF
+wakefield (if <10 no transverse wakefield effects included).
 
 #### **Attributes**
-1. **Element Type** – Set to `-52` for Longitudinal Space Charge Calculation.
-2. **Calculation Mode** – Determines the method used for space charge calculation:
-   - `0`: **Disable** longitudinal space charge effects.
-   - `1`: **Enable** longitudinal space charge effects using the default model.
-3. **Smoothing Parameter** – A factor controlling numerical smoothing of the space charge fields.
 
 #### **Example**
-`0 0 0 -52 1 0.1 /`
-This means:
-- **Longitudinal space charge effects are enabled**.
-- **Smoothing parameter** is set to **0.1** to control numerical noise in the space charge calculation.
 
 
 ---
 
-### **Transverse Space Charge Calculation (Element -55)**
+### **Energy Modulation (Element -52)**
 #### **Description**
-The **Transverse Space Charge Calculation** element enables the computation of **space charge effects** in the **transverse (X-Y) plane**. This effect is critical for accurately modeling high-intensity beams, particularly in low-energy or high-density regimes.
+
+
+“
+-52” add energy modulation (emulate laser heater). e.g. 0.0 0 10 -52 0.0895d-03 1030.0d-9 7000.0
+/ uncorrelated energy spread by "7000.0" eV using laser wavelength 1030d-9 m and the matched
+beam size "0.0895d-3" m)
 
 #### **Attributes**
-1. **Element Type** – Set to `-55` for Transverse Space Charge Calculation.
-2. **Calculation Mode** – Determines the method used for space charge calculation:
-   - `0`: **Disable** transverse space charge effects.
-   - `1`: **Enable** transverse space charge effects using the default model.
-3. **Smoothing Parameter** – A factor controlling numerical smoothing of the space charge fields.
+
 
 #### **Example**
-`0 0 0 -55 1 0.1 /`
-This means:
-- **Transverse space charge effects are enabled**.
-- **Smoothing parameter** is set to **0.1** to control numerical noise in the space charge calculation.
+
+
+---
+
+### **Thin Multipole (Element -55)**
+#### **Description**
+
+“
+-55” kick the beam using thin lens multipole. e.g. 0.0 0 10 -55 1.0 0.0 1.0 2.0 3.0 4.0 5.0 / “1.0”
+not used, 0.0 – dipole (k0), 1.0 – quad. (k1), 2.0 – sext. (k2), 3.0 – oct. (k3), 4.0 – dec. (k4), 5.0 –
+dodec. (k5).
+
+#### **Attributes**
+
+
+#### **Example**
+
 
 
 ---
