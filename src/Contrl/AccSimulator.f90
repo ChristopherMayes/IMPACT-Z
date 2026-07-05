@@ -167,7 +167,7 @@
         if(myid.eq.0) then
           !print*,"Start simulation:"
           print*,"!-----------------------------------------------------------"
-          print*,"! IMPACT-Z: Integrated Map and PArticle Tracking Code: Version 2.6"
+          print*,"! IMPACT-Z: Integrated Map and PArticle Tracking Code: Version 2.7.1"
           print*,"! Copyright of The Regents of the University of California"
           print*,"!-----------------------------------------------------------"
         endif
@@ -230,9 +230,19 @@
         imultpole = 0
         itws = 0
         iwig = 0
+        if(Nblem > Nblemtmax) then
+          print*,"over max. # of beam line elements!!! ",Nblemtmax
+          stop
+        endif
         do i = 1, Nblem
           if(bitype(i).lt.0) then
             ibpm = ibpm + 1
+
+            if(ibpm > Nbpmmax) then
+               print*,"over max. # of bpm: ",Nbpmmax
+               stop
+             endif
+
             call construct_BPM(beamln0(ibpm),bnseg(i),bmpstp(i),&
                  bitype(i),blength(i))
             tmpbpm(1) = 0.0
@@ -250,6 +260,12 @@
             if(bitype(i).eq.-7) nfileout=bmpstp(i)
           else if(bitype(i).eq.0) then
             idr = idr + 1
+
+            if(idr > Ndriftmax) then
+               print*,"over max. # of drift: ",Ndriftmax
+               stop
+            endif
+
             call construct_DriftTube(beamln1(idr),bnseg(i),bmpstp(i),&
                  bitype(i),blength(i))
             tmpdr(1) = 0.0
@@ -258,6 +274,12 @@
             Blnelem(i) = assign_BeamLineElem(beamln1(idr))
           else if(bitype(i).eq.1) then
             iqr = iqr + 1
+
+            if(iqr > Nquadmax) then
+               print*,"over max. # of quad: ",Nquadmax
+               stop
+            endif
+
             call construct_Quadrupole(beamln2(iqr),bnseg(i),bmpstp(i),&
             bitype(i),blength(i))
             tmpquad(1) = 0.0
@@ -402,6 +424,12 @@
             Blnelem(i) = assign_BeamLineElem(beamln4(iccdtl))
           else if(bitype(i).eq.103) then
             iccl = iccl + 1
+
+            if(iccl > Ncclmax) then
+               print*,"over max. # of CCL: ",Ncclmax
+               stop
+            endif
+
             call construct_CCL(beamln5(iccl),bnseg(i),bmpstp(i),&
                  bitype(i),blength(i))
             tmprf(1) = 0.0
@@ -419,6 +447,12 @@
             Blnelem(i) = assign_BeamLineElem(beamln5(iccl))
           else if(bitype(i).eq.104) then
             isc = isc + 1
+
+            if(isc > Nscmax) then
+               print*,"over max. # of SC: ",Nscmax
+               stop
+            endif
+
             call construct_SC(beamln6(isc),bnseg(i),bmpstp(i),&
                  bitype(i),blength(i))
             tmprf(1) = 0.0
@@ -607,7 +641,7 @@
         real*8, dimension(2) :: xylc,xygl
         real*8 :: xsig2,ysig2,freqlaser,harm,sigx2,ezlaser
         !for ISR
-        real*8 :: beta,brho
+        real*8 :: beta,brho,gam0
         integer :: flagsc
 
 
@@ -721,10 +755,30 @@
 
           !print*,"tau, ",i,tau1,blength,bnseg,bitype,z
 
+
+          !instant kick by external linear map
+          if(bitype.eq.-12) then
+            nfile =bmpstp
+            gam0 = -Bpts%refptcl(6)
+            call kickextmap_BPM(Bpts%Pts1,Nplocal,gam0,nfile)
+          endif
+
           !switch on/off space-charge effects
           if(bitype.eq.-14) then
             call getparam_BeamLineElem(Blnelem(i),3,tmplump)
             flagsc = tmplump
+          endif
+          !instant rotate "tmplump" radian w.r.s x-axis
+          if(bitype.eq.-16) then
+            gamma0 = -Bpts%refptcl(6)
+            call getparam_BeamLineElem(Blnelem(i),3,tmplump)
+            call xrot_BPM(Bpts%Pts1,Nplocal,tmplump,gamma0)
+          endif
+          !instant rotate "tmplump" radian w.r.s y-axis
+          if(bitype.eq.-17) then
+            gamma0 = -Bpts%refptcl(6)
+            call getparam_BeamLineElem(Blnelem(i),3,tmplump)
+            call yrot_BPM(Bpts%Pts1,Nplocal,tmplump,gamma0)
           endif
           !instant rotate "tmplump" radian w.r.s s-axis
           if(bitype.eq.-18) then
@@ -747,6 +801,12 @@
           !switch integrator types
           if(bitype.eq.-25) then
             Flagmap = bmpstp
+          endif
+
+          if(bitype.eq.-44) then
+            gam0 = -Bpts%refptcl(6)
+            call getparam_BeamLineElem(Blnelem(i),drange)
+            call kickthindef_BPM(Bpts%Pts1,Nplocal,drange(2),int(drange(3)),gam0)
           endif
 
 !-------------------------------------------------------------------
@@ -960,9 +1020,9 @@
           zedge = z
           call setparam_BeamLineElem(Blnelem(i),1,zedge)
           if(myid.eq.0) print*,"zedge: ",zedge
-          if(Flagerr.eq.1) then
-              call geomerrL_BeamBunch(Bpts,Blnelem(i)) 
-          end if
+          !if(Flagerr.eq.1) then
+          !    call geomerrL_BeamBunch(Bpts,Blnelem(i)) 
+          !end if
           !/bend using Transport transfer map
           if(bitype.eq.4) then
               call getparam_BeamLineElem(Blnelem(i),dparam)
@@ -1020,6 +1080,10 @@
 ! using 2 step symplectic integeration (ie. leap frog).
           ihlf = 0
           do j = 1, bnseg
+
+            if(Flagerr.eq.1) then
+              call geomerrL_BeamBunch(Bpts,Blnelem(i)) 
+            end if
 !-------------------------------------------------------------------
 ! use linear map or nonlinear Lorentz integrator to advance particles.
             if(bitype.ne.4) then
@@ -1352,6 +1416,13 @@
                                     bnseg,j,ihlf)
               else
                 !print*,"before sec2: ",z,angz
+                if(Bcurr.gt.1.0d-15) then
+                  gamma0 = -Bpts%refptcl(6)
+                  beta=sqrt((gamma0+1.d0)*(gamma0-1.d0))/gamma0
+                  brho=gamma0*beta/Clight*Bmass
+                  b0 =abs(brho*dparam(2)/blength)
+                  call ISRchicane(Bpts%Pts1,Nplocal,tau2,gamma0,b0)
+                endif
                 call Sector_Dipole(tau1,beta0,hd0,hd1,Bpts%Pts1,&
                                    Nplocal,qm0)
                 z = z + tau1
@@ -1370,6 +1441,13 @@
               if(bitype.ne.4) then
                 call map1_BeamBunch(Bpts,z,tau2)
               else
+                if(Bcurr.gt.1.0d-15) then
+                  gamma0 = -Bpts%refptcl(6)
+                  beta=sqrt((gamma0+1.d0)*(gamma0-1.d0))/gamma0
+                  brho=gamma0*beta/Clight*Bmass
+                  b0 =abs(brho*dparam(2)/blength)
+                  call ISRchicane(Bpts%Pts1,Nplocal,tau2,gamma0,b0)
+                endif
                 call Sector_Dipole(tau1,beta0,hd0,hd1,Bpts%Pts1,&
                                  Nplocal,qm0)
                 z = z + tau1
@@ -1379,19 +1457,14 @@
             !print*,"pass sec2: ",z
 
 
+            if(Flagerr.eq.1) then
+                call geomerrT_BeamBunch(Bpts,Blnelem(i)) 
+            end if
+
             if(Flagdiag.eq.1) then
                 call diagnostic1_Output(z,Bpts,nchrg,nptlist0)
             else if(Flagdiag.eq.2) then
                 call diagnostic2_Output(Bpts,z,nchrg,nptlist0)
-            endif
-
-            !add ISR inside the bending magnet
-            if(bitype.eq.4 .and. (Bcurr.gt.1.0d-15)) then
-              gamma0 = -Bpts%refptcl(6)
-              beta=sqrt((gamma0+1.d0)*(gamma0-1.d0))/gamma0
-              brho=gamma0*beta/Clight*Bmass
-              b0 =abs(brho*dparam(2)/blength)
-              call ISRchicane(Bpts%Pts1,Nplocal,tau2,gamma0,b0)
             endif
 
             nstep = nstep + 1
@@ -1405,9 +1478,9 @@
               call Bpol_Dipole(hd0,hB,tanphiB,tanphiBb,hd1,&
                                psi2,Bpts%Pts1,angB,Nplocal,gamma0,qm0)
           endif
-          if(Flagerr.eq.1) then
-                call geomerrT_BeamBunch(Bpts,Blnelem(i)) 
-          end if
+          !if(Flagerr.eq.1) then
+          !      call geomerrT_BeamBunch(Bpts,Blnelem(i)) 
+          !end if
           zbleng = zbleng + blength
           bitypeold2 = bitypeold
           blengthold2 = blengthold
