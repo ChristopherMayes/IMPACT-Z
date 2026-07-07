@@ -17,6 +17,12 @@ default to zero. The `/` terminates the line.
     in [LUME-Impact](https://github.com/ChristopherMayes/lume-impact)'s
     `impact.z` subpackage.
 
+Positive type codes are physical beamline elements; negative type codes
+are zero-length control and diagnostic operations. A negative type code
+not listed below is **silently ignored** by IMPACT-Z v2.7.1 (no warning
+is printed), with one exception: type `-11` prints "Not available in
+current version!" and stops the run.
+
 ## Element type codes
 
 | Code | Element | Category |
@@ -93,7 +99,7 @@ This element can read an external input file (see `file_id` below).
 | 2 | `steps` | int | `0` | Number of space-charge kicks through the beamline element. Each "step" consists of a half-step, a space-charge kick, and another half-step. |
 | 3 | `map_steps` | int | `0` | Number of "map steps". Each half-step involves computing a map for that half-element which is computed by numerical integration. |
 | 4 | `type_id` | int | — | Element type code: **1** |
-| 5 | `k1` | float | `0.0` | The quadrupole strength, 1/m^2. (NOTE: the manual is actually wrong here, this is not B1 in units of T/m) |
+| 5 | `k1` | float | `0.0` | The quadrupole strength. Its interpretation depends on `file_id`: the magnetic field gradient B1 in T/m in the default mode (`file_id` = 0 or > 0), or the MAD-style K1 = B1/(B rho) in 1/m^2 when `file_id` is between -10 and 0. |
 | 6 | `file_id` | float | `0.0` | An ID for the input gradient file. Determines profile behavior: if greater than 0, a fringe field profile is read; if less than -10, a linear transfer map of an undulator is used; if between -10 and 0, it's the k-value linear transfer map; if equal to 0, it uses the linear transfer map with the gradient. |
 | 7 | `radius` | float | `0.0` | The radius of the quadrupole, measured in meters. |
 | 8 | `misalignment_error_x` | float | `0.0` | The x-direction misalignment error, given in meters. |
@@ -162,8 +168,8 @@ This element can read an external input file (see `file_id` below).
 | 8 | `hgap` | float | `0.0` | Half gap [m]. |
 | 9 | `e1` | float | `0.0` | Entrance pole face angle [rad]. |
 | 10 | `e2` | float | `0.0` | Exit pole face angle [rad]. |
-| 11 | `entrance_curvature` | float | `0.0` | Curvature of entrance face [rad]. |
-| 12 | `exit_curvature` | float | `0.0` | Curvature of exit face [rad]. |
+| 11 | `entrance_curvature` | float | `0.0` | Curvature (1/radius) of entrance pole face [1/m]. |
+| 12 | `exit_curvature` | float | `0.0` | Curvature (1/radius) of exit pole face [1/m]. |
 | 13 | `fint` | float | `0.0` | Integrated fringe field K of entrance (Kf). Fringe field K of exit assumed to be equal (Kb = Kf). |
 | 14 | `misalignment_error_x` | float | `0.0` | Misalignment error in the x direction. |
 | 15 | `misalignment_error_y` | float | `0.0` | Misalignment error in the y direction. |
@@ -210,8 +216,8 @@ Only supports the integrator type `IntegratorType.runge_kutta`.
 | 3 | `map_steps` | int | `0` | Number of "map steps". Each half-step involves computing a map for that half-element which is computed by numerical integration. |
 | 4 | `type_id` | int | — | Element type code: **6** |
 | 5 | `wiggler_type` | int | `1` | Wiggler type. Defaults to `WigglerType.planar`. See [WigglerType](enums.md#wigglertype). |
-| 6 | `max_field_strength` | float | `0.0` | The maximum strength of the magnetic field. Units of T/m^n. |
-| 7 | `file_id` | float | `0.0` | File ID (unused?) |
+| 6 | `max_field_strength` | float | `0.0` | The maximum on-axis magnetic field, in Tesla. |
+| 7 | `file_id` | float | `0.0` | File ID for a read-in field profile. |
 | 8 | `radius` | float | `0.0` | Radius in meters. |
 | 9 | `kx` | float | `0.0` | Wiggler strength. |
 | 10 | `period` | float | `0.0` | Period of the wiggler. |
@@ -387,8 +393,8 @@ This element can read an external input file (see `file_id` below).
 | 10 | `misalignment_error_x` | float | `0.0` | X misalignment error in meters. |
 | 11 | `misalignment_error_y` | float | `0.0` | Y misalignment error in meters. |
 | 12 | `rotation_error_x` | float | `0.0` | Rotation errors in x [rad]. |
-| 13 | `rotation_error_y` | float | `0.0` | Rotation errors in x [rad]. |
-| 14 | `rotation_error_z` | float | `0.0` | Rotation errors in x [rad]. |
+| 13 | `rotation_error_y` | float | `0.0` | Rotation errors in y [rad]. |
+| 14 | `rotation_error_z` | float | `0.0` | Rotation errors in z [rad]. |
 | 15 | `phase_diff` | float | `0.0` | Phase difference B and A (pi - beta * d). |
 | 16 | `aperture_size_for_wakefield` | float | `0.0` | Aperture size for wakefield. An aperture size >0 enables the wakefield calculation. |
 | 17 | `gap_size` | float | `0.0` | Gap size for wakefield. |
@@ -451,14 +457,18 @@ Write the particle distribution into a fort.N file.
 | 2 | `steps` | int | `0` | Unused. |
 | 3 | `file_id` | int | `0` | The File ID. |
 | 4 | `type_id` | int | — | Element type code: **-2** |
-| 5 | `unused_2` | float | `0.0` | *Unused; set to 0.* |
-| 6 | `sample_frequency` | int | `0` | Write every Nth particle. |
+| 5 | `sample_frequency` | int | `0` | Write every Nth particle. |
+| 6 | `unused_2` | float | `0.0` | *Unused; set to 0.* |
 
 ### density_profile_input
 
 **Type code: `-3`** &nbsp;&middot;&nbsp; LUME-Impact class: `DensityProfileInput`
 
-Input element: density profile input parameters.
+Write the accumulated density along R, X, and Y into files
+RadDens.data, Xprof.data, and Yprof.data.
+
+Note that IMPACT-Z v2.7 only reads `radius`, `xmax`, and `ymax`; the
+momentum/longitudinal frame parameters are accepted but unused.
 
 | Col | Parameter | Type | Default | Description |
 |----:|-----------|------|---------|-------------|
@@ -518,7 +528,12 @@ Represents the 2D projections of a 6D distribution.
 
 **Type code: `-6`** &nbsp;&middot;&nbsp; LUME-Impact class: `Density3D`
 
-Input element: 3D density.
+Write the 3D density into file fort.8.
+
+Warning: IMPACT-Z v2.7.1 does not actually read this element's
+parameters before using them (a missing getparam call in
+AccSimulator.f90), so the frame ranges applied are stale values from a
+previously processed element. Treat the parameters below as the intent.
 
 | Col | Parameter | Type | Default | Description |
 |----:|-----------|------|---------|-------------|
@@ -541,14 +556,15 @@ Input element: 3D density.
 Input element: write the 6D phase space information and local computation
 domain information.
 
-Writes to files fort.1000, fort.1001, fort.1002, ...,
-fort.(1000+Nprocessor-1). This function is used for restart purposes.
+Writes to files fort.(file_id), fort.(file_id+1), ...,
+fort.(file_id+Nprocessor-1), one per processor (file_id is typically
+1000). This function is used for restart purposes.
 
 | Col | Parameter | Type | Default | Description |
 |----:|-----------|------|---------|-------------|
-| 1 | `length` | float | `0.0` |  |
-| 2 | `steps` | int | `0` |  |
-| 3 | `map_steps` | int | `0` |  |
+| 1 | `length` | float | `0.0` | Unused. |
+| 2 | `steps` | int | `0` | Unused. |
+| 3 | `file_id` | int | `0` | The base file ID; processor `rank` writes to fort.(file_id+rank). |
 | 4 | `type_id` | int | — | Element type code: **-7** |
 
 ### write_slice_info
@@ -801,7 +817,7 @@ This element can read an external input file (see `file_id` below).
 | 2 | `steps` | int | `0` | Unused. |
 | 3 | `map_steps` | int | `0` | Number of "map steps". Each half-step involves computing a map for that half-element which is computed by numerical integration. |
 | 4 | `type_id` | int | — | Element type code: **-41** |
-| 5 | `unused` | float | `1.0` | *Unused; set to 0.* |
+| 5 | `scale` | float | `1.0` | Scaling factor applied to the read-in wakefield when enabled. |
 | 6 | `file_id` | float | `0.0` | The file ID to load from. |
 | 7 | `enable_wakefield` | float | `0.0` | -1.0 RF off, 1.0 RF on, < 10 no transverse wakefield effects included |
 

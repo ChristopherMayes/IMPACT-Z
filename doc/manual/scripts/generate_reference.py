@@ -88,6 +88,12 @@ def write_elements(spec: dict) -> None:
         "    in [LUME-Impact](https://github.com/ChristopherMayes/lume-impact)'s",
         "    `impact.z` subpackage.",
         "",
+        "Positive type codes are physical beamline elements; negative type codes",
+        "are zero-length control and diagnostic operations. A negative type code",
+        "not listed below is **silently ignored** by IMPACT-Z v2.7.1 (no warning",
+        "is printed), with one exception: type `-11` prints \"Not available in",
+        "current version!\" and stops the run.",
+        "",
     ]
 
     groups = [

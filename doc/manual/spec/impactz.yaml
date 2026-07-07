@@ -366,8 +366,9 @@ elements:
     name: k1
     python_type: float
     default: 0.0
-    description: 'The quadrupole strength, 1/m^2. (NOTE: the manual is actually wrong here,
-      this is not B1 in units of T/m)'
+    description: 'The quadrupole strength. Its interpretation depends on `file_id`: the magnetic
+      field gradient B1 in T/m in the default mode (`file_id` = 0 or > 0), or the MAD-style
+      K1 = B1/(B rho) in 1/m^2 when `file_id` is between -10 and 0.'
   - column: 6
     name: file_id
     python_type: float
@@ -588,12 +589,12 @@ elements:
     name: entrance_curvature
     python_type: float
     default: 0.0
-    description: Curvature of entrance face [rad].
+    description: Curvature (1/radius) of entrance pole face [1/m].
   - column: 12
     name: exit_curvature
     python_type: float
     default: 0.0
-    description: Curvature of exit face [rad].
+    description: Curvature (1/radius) of exit pole face [1/m].
   - column: 13
     name: fint
     python_type: float
@@ -742,12 +743,12 @@ elements:
     name: max_field_strength
     python_type: float
     default: 0.0
-    description: The maximum strength of the magnetic field.  Units of T/m^n.
+    description: The maximum on-axis magnetic field, in Tesla.
   - column: 7
     name: file_id
     python_type: float
     default: 0.0
-    description: File ID (unused?)
+    description: File ID for a read-in field profile.
   - column: 8
     name: radius
     python_type: float
@@ -1332,12 +1333,12 @@ elements:
     name: rotation_error_y
     python_type: float
     default: 0.0
-    description: Rotation errors in x [rad].
+    description: Rotation errors in y [rad].
   - column: 14
     name: rotation_error_z
     python_type: float
     default: 0.0
-    description: Rotation errors in x [rad].
+    description: Rotation errors in z [rad].
   - column: 15
     name: phase_diff
     python_type: float
@@ -1511,21 +1512,28 @@ elements:
     python_type: int
     value: -2
   - column: 5
+    name: sample_frequency
+    python_type: int
+    default: 0
+    description: Write every Nth particle.
+  - column: 6
     name: unused_2
     python_type: float
     default: 0.0
     description: Unused
     unused: true
-  - column: 6
-    name: sample_frequency
-    python_type: int
-    default: 0
-    description: Write every Nth particle.
 - type_code: -3
   name: density_profile_input
   class_name: DensityProfileInput
   category: control
-  summary: 'Input element: density profile input parameters.'
+  summary: 'Write the accumulated density along R, X, and Y into files
+
+    RadDens.data, Xprof.data, and Yprof.data.
+
+
+    Note that IMPACT-Z v2.7 only reads `radius`, `xmax`, and `ymax`; the
+
+    momentum/longitudinal frame parameters are accepted but unused.'
   has_input_file: false
   has_output_file: false
   parameters:
@@ -1714,7 +1722,16 @@ elements:
   name: density_3_d
   class_name: Density3D
   category: control
-  summary: 'Input element: 3D density.'
+  summary: 'Write the 3D density into file fort.8.
+
+
+    Warning: IMPACT-Z v2.7.1 does not actually read this element''s
+
+    parameters before using them (a missing getparam call in
+
+    AccSimulator.f90), so the frame ranges applied are stale values from a
+
+    previously processed element. Treat the parameters below as the intent.'
   has_input_file: false
   has_output_file: false
   parameters:
@@ -1782,9 +1799,11 @@ elements:
     domain information.
 
 
-    Writes to files fort.1000, fort.1001, fort.1002, ...,
+    Writes to files fort.(file_id), fort.(file_id+1), ...,
 
-    fort.(1000+Nprocessor-1). This function is used for restart purposes.'
+    fort.(file_id+Nprocessor-1), one per processor (file_id is typically
+
+    1000). This function is used for restart purposes.'
   has_input_file: false
   has_output_file: false
   parameters:
@@ -1792,14 +1811,17 @@ elements:
     name: length
     python_type: float
     default: 0.0
+    description: Unused.
   - column: 2
     name: steps
     python_type: int
     default: 0
+    description: Unused.
   - column: 3
-    name: map_steps
+    name: file_id
     python_type: int
     default: 0
+    description: The base file ID; processor `rank` writes to fort.(file_id+rank).
   - column: 4
     name: type_id
     python_type: int
@@ -2444,10 +2466,10 @@ elements:
     python_type: int
     value: -41
   - column: 5
-    name: unused
+    name: scale
     python_type: float
     default: 1.0
-    unused: true
+    description: Scaling factor applied to the read-in wakefield when enabled.
   - column: 6
     name: file_id
     python_type: float
