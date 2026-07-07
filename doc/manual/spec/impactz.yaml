@@ -1,0 +1,2652 @@
+spec_version: '0.1'
+code: IMPACT-Z
+code_version: 2.7.1
+generated_by: export_spec_from_lume.py
+generated_from: lume-impact impact.z (impact version 0.11.1.dev184)
+generated_date: '2026-07-07'
+enums:
+  BoundaryType:
+    trans_open_longi_open: 1
+    trans_open_longi_period: 2
+    trans_round_longi_open: 3
+    trans_round_longi_period: 4
+    trans_rect_longi_open: 5
+    trans_rect_longi_period: 6
+  DiagnosticType:
+    none: 0
+    standard: 1
+    extended: 2
+  DistributionType:
+    uniform: 1
+    gauss: 2
+    waterBag: 3
+    semiGauss: 4
+    kV: 5
+    unknown: 6
+    read: 19
+    multi_charge_state_waterbag: 16
+    multi_charge_state_gaussian: 17
+  GPUFlag:
+    disabled: 0
+    enabled: 5
+  IntegratorType:
+    linear_map: 1
+    runge_kutta: 2
+  MultipoleType:
+    sextupole: 2
+    octupole: 3
+    decapole: 4
+  RFCavityCoordinateType:
+    cartesian: 2
+    cylindrical: 1
+  RFCavityDataMode:
+    discrete: 1
+    both: 2
+    analytical: 3
+  WigglerType:
+    planar: 1
+    helical: 2
+header_lines:
+- line: 1
+  fields:
+  - name: ncpu_y
+    python_type: int
+    default: 1
+    description: Number of processors in y direction. Default is 1.
+  - name: ncpu_z
+    python_type: int
+    default: 1
+    description: Number of processors in z direction. Default is 1.
+  - name: gpu
+    python_type: int
+    enum: GPUFlag
+    default: 0
+- line: 2
+  fields:
+  - name: seed
+    python_type: int
+    default: 0
+    description: Random number seed. Default is 0.
+  - name: n_particle
+    python_type: int
+    default: 0
+    description: Number of particles. Default is 0.
+  - name: integrator_type
+    python_type: int
+    enum: IntegratorType
+    default: 1
+    description: Type of integrator. Default is `IntegratorType.linear_map` (equivalently
+      "linear_map").
+  - name: err
+    python_type: int
+    default: 1
+    description: Error flag. Default is 1.
+  - name: diagnostic_type
+    python_type: int
+    enum: DiagnosticType
+    default: 2
+    description: Type of diagnostics. Default is DiagnosticType.extended.
+- line: 3
+  fields:
+  - name: nx
+    python_type: int
+    default: 0
+    description: Number of mesh points in x. Default is 0.
+  - name: ny
+    python_type: int
+    default: 0
+    description: Number of mesh points in y. Default is 0.
+  - name: nz
+    python_type: int
+    default: 0
+    description: Number of mesh points in z. Default is 0.
+  - name: boundary_type
+    python_type: int
+    enum: BoundaryType
+    default: 1
+    description: Boundary condition type. Default is `BoundaryType.trans_open_longi_open`.
+  - name: radius_x
+    python_type: float
+    default: 0.0
+    description: Pipe radius in x direction. Default is 0.0.
+  - name: radius_y
+    python_type: float
+    default: 0.0
+    description: Pipe radius in y direction. Default is 0.0.
+  - name: z_period_size
+    python_type: float
+    default: 0.0
+    description: Period size in z direction. Default is 0.0.
+- line: 4
+  fields:
+  - name: distribution
+    python_type: int
+    enum: DistributionType
+    default: 1
+    description: Particle distribution type. Default is `DistributionType.uniform`.
+  - name: restart
+    python_type: int
+    default: 0
+    description: Restart flag. Default is 0.
+  - name: subcycle
+    python_type: int
+    default: 0
+    description: Subcycling flag. Default is 0.
+  - name: nbunch
+    python_type: int
+    default: 1
+    description: Number of bunches. Default is 0.
+- line: 5
+  fields:
+  - name: particle_list
+    python_type: list[int]
+    default:
+    - 0
+    description: List of particles. Default is [0]. This must be the same length as `current_list`
+      and `charge_over_mass_list`.
+- line: 6
+  fields:
+  - name: current_list
+    python_type: list[float]
+    default:
+    - 0.0
+    description: 'List of currents for each particle type. Default is [0.0]. This is used
+      with: * `DistributionType.waterbag` and `DistributionType.multi_charge_state_gaussian`.'
+- line: 7
+  fields:
+  - name: charge_over_mass_list
+    python_type: list[float]
+    default:
+    - 0.0
+    description: 'List of charge-to-mass ratios for each particle type. Default is [0.0].
+      This is used with: * `DistributionType.waterbag` and `DistributionType.multi_charge_state_gaussian`.
+      * `CollimateBeam` elements * Calculating space charge forces'
+- line: 8
+  fields:
+  - name: twiss_alpha_x
+    python_type: float
+    default: 0.0
+    description: Alpha Twiss parameter in x plane. Default is 0.0.
+  - name: twiss_beta_x
+    python_type: float
+    default: 1.0
+    description: Beta Twiss parameter in x plane. Default is 1.0.
+  - name: twiss_norm_emit_x
+    python_type: float
+    default: 1.0e-06
+    description: Normalized emittance in x plane. Default is 1e-6.
+  - name: twiss_mismatch_x
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for x coordinate. Default is 1.0.
+  - name: twiss_mismatch_px
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for px coordinate. Default is 1.0.
+  - name: twiss_offset_x
+    python_type: float
+    default: 0.0
+    description: Offset in x coordinate. Default is 0.0.
+  - name: twiss_offset_px
+    python_type: float
+    default: 0.0
+    description: Offset in px coordinate. Default is 0.0.
+- line: 9
+  fields:
+  - name: twiss_alpha_y
+    python_type: float
+    default: 0.0
+    description: Alpha Twiss parameter in y plane. Default is 0.0.
+  - name: twiss_beta_y
+    python_type: float
+    default: 1.0
+    description: Beta Twiss parameter in y plane. Default is 1.0.
+  - name: twiss_norm_emit_y
+    python_type: float
+    default: 1.0e-06
+    description: Normalized emittance in y plane. Default is 1e-6.
+  - name: twiss_mismatch_y
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for y coordinate. Default is 1.0.
+  - name: twiss_mismatch_py
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for py coordinate. Default is 1.0.
+  - name: twiss_offset_y
+    python_type: float
+    default: 0.0
+    description: Offset in y coordinate. Default is 0.0.
+  - name: twiss_offset_py
+    python_type: float
+    default: 0.0
+    description: Offset in py coordinate. Default is 0.0.
+- line: 10
+  fields:
+  - name: twiss_alpha_z
+    python_type: float
+    default: 1.0e-09
+    description: Alpha Twiss parameter in z plane. Default is 1e-9. This must be non-zero,
+      or compute domain calculations in IMPACT-Z may lead to crashes.
+  - name: twiss_beta_z
+    python_type: float
+    default: 1.0
+    description: Beta Twiss parameter in z plane. Default is 1.0.
+  - name: twiss_norm_emit_z
+    python_type: float
+    default: 1.0e-06
+    description: Normalized emittance in z plane. Default is 1e-6.
+  - name: twiss_mismatch_z
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for z coordinate. Default is 1.0.
+  - name: twiss_mismatch_e_z
+    python_type: float
+    default: 1.0
+    description: Mismatch factor for energy coordinate. Default is 1.0.
+  - name: twiss_offset_phase_z
+    python_type: float
+    default: 0.0
+    description: Offset in z phase. Default is 0.0.
+  - name: twiss_offset_energy_z
+    python_type: float
+    default: 0.0
+    description: Offset in energy. Default is 0.0.
+- line: 11
+  fields:
+  - name: average_current
+    python_type: float
+    default: 1.0
+    description: Average beam current in Amperes. Default is 1.0.
+  - name: reference_kinetic_energy
+    python_type: float
+    default: 0.0
+    description: Reference particle kinetic energy. Default is 0.0.
+  - name: reference_particle_mass
+    python_type: float
+    default: 0.0
+    description: Reference particle mass. Default is 0.0.
+  - name: reference_particle_charge
+    python_type: float
+    default: 0.0
+    description: Reference particle charge. Default is 0.0.
+  - name: reference_frequency
+    python_type: float
+    default: 0.0
+    description: Reference RF frequency. Default is 0.0.
+  - name: initial_phase_ref
+    python_type: float
+    default: 0.0
+    description: Initial phase of reference particle. Default is 0.0.
+- line: 12
+  fields:
+  - name: filename
+    python_type: Path
+    default: null
+    description: Input file path. Default is None. (Excluded from JSON serialization.)
+  - name: verbose
+    python_type: bool
+    default: false
+    description: Verbose output flag when running IMPACT-Z. Default is False.
+elements:
+- type_code: 0
+  name: drift
+  class_name: Drift
+  category: beamline_element
+  summary: Drift element.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 0
+  - column: 5
+    name: radius
+    python_type: float
+    default: 1.0
+    description: Radius of the pipe, in meters.
+  - column: 6
+    name: unused_0
+    python_type: float
+    default: 0.0
+    unused: true
+  - column: 7
+    name: unused_1
+    python_type: float
+    default: 0.0
+    unused: true
+- type_code: 1
+  name: quadrupole
+  class_name: Quadrupole
+  category: beamline_element
+  summary: A quadrupole element.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 1
+  - column: 5
+    name: k1
+    python_type: float
+    default: 0.0
+    description: 'The quadrupole strength, 1/m^2. (NOTE: the manual is actually wrong here,
+      this is not B1 in units of T/m)'
+  - column: 6
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: 'An ID for the input gradient file. Determines profile behavior: if greater
+      than 0, a fringe field profile is read; if less than -10, a linear transfer map of an
+      undulator is used; if between -10 and 0, it''s the k-value linear transfer map; if equal
+      to 0, it uses the linear transfer map with the gradient.'
+  - column: 7
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the quadrupole, measured in meters.
+  - column: 8
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: The x-direction misalignment error, given in meters.
+  - column: 9
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: The y-direction misalignment error, given in meters.
+  - column: 10
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error in radians.
+  - column: 11
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error in radians.
+  - column: 12
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error in radians.
+- type_code: 2
+  name: constant_focusing
+  class_name: ConstantFocusing
+  category: beamline_element
+  summary: 3D constant focusing.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 2
+  - column: 5
+    name: kx0_squared
+    python_type: float
+    default: 0.0
+    description: The square of the kx0 parameter.
+  - column: 6
+    name: ky0_squared
+    python_type: float
+    default: 0.0
+    description: The square of the ky0 parameter.
+  - column: 7
+    name: kz0_squared
+    python_type: float
+    default: 0.0
+    description: The square of the kz0 parameter.
+  - column: 8
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the focusing element in meters.
+- type_code: 3
+  name: solenoid
+  class_name: Solenoid
+  category: beamline_element
+  summary: Solenoid used in beam dynamics simulations.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: The effective length of the solenoid in meters, including two linear fringe
+      regions and a flat top region (solenoid integrator).
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 3
+  - column: 5
+    name: Bz0
+    python_type: float
+    default: 0.0
+    description: The axial magnetic field at the center of the solenoid in Tesla.
+  - column: 6
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: The identifier for the input field file.
+  - column: 7
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the solenoid in meters.
+  - column: 8
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the x-direction in meters.
+  - column: 9
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the y-direction in meters.
+  - column: 10
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 11
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error in the y-direction in radians.
+  - column: 12
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error in the z-direction in radians.
+- type_code: 4
+  name: dipole
+  class_name: Dipole
+  category: beamline_element
+  summary: Represents a dipole element used in beam simulations.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 4
+  - column: 5
+    name: angle
+    python_type: float
+    default: 1.0e-06
+    description: Bending angle [rad]. Must be non-zero.
+  - column: 6
+    name: k1
+    python_type: float
+    default: 0.0
+    description: Field strength.
+  - column: 7
+    name: input_switch
+    python_type: float
+    default: 0.0
+    description: 'CSR settings. - `input_switch <= 200`: no CSR - `200 < input_switch <=500`:
+      CSR in the bend - `input_switch > 500`: CSR in the bend and the next following drift'
+  - column: 8
+    name: hgap
+    python_type: float
+    default: 0.0
+    description: Half gap [m].
+  - column: 9
+    name: e1
+    python_type: float
+    default: 0.0
+    description: Entrance pole face angle [rad].
+  - column: 10
+    name: e2
+    python_type: float
+    default: 0.0
+    description: Exit pole face angle [rad].
+  - column: 11
+    name: entrance_curvature
+    python_type: float
+    default: 0.0
+    description: Curvature of entrance face [rad].
+  - column: 12
+    name: exit_curvature
+    python_type: float
+    default: 0.0
+    description: Curvature of exit face [rad].
+  - column: 13
+    name: fint
+    python_type: float
+    default: 0.0
+    description: Integrated fringe field K of entrance (Kf). Fringe field K of exit assumed
+      to be equal (Kb = Kf).
+  - column: 14
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the x direction.
+  - column: 15
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the y direction.
+  - column: 16
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error around the x axis.
+  - column: 17
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error around the y axis.
+  - column: 18
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error around the z axis.
+- type_code: 5
+  name: multipole
+  class_name: Multipole
+  category: beamline_element
+  summary: Represents a multipole element used in beam simulations.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 5
+  - column: 5
+    name: multipole_type
+    python_type: int
+    enum: MultipoleType
+    default: 2
+    description: The type of multipole element, sextupole, octupole, or decapole.
+  - column: 6
+    name: field_strength
+    python_type: float
+    default: 0.0
+    description: The strength of the magnetic field.  Units of T/m^n.
+  - column: 7
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Identifier for related input data file.
+  - column: 8
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the multipole.
+  - column: 9
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the x-direction.
+  - column: 10
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the y-direction.
+  - column: 11
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error around the x-axis.
+  - column: 12
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error around the y-axis.
+  - column: 13
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error around the z-axis.
+- type_code: 6
+  name: wiggler
+  class_name: Wiggler
+  category: beamline_element
+  summary: 'Represents a planar or helical wiggler element used in beam simulations.
+
+
+    Only supports the integrator type `IntegratorType.runge_kutta`.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 6
+  - column: 5
+    name: wiggler_type
+    python_type: int
+    enum: WigglerType
+    default: 1
+    description: Wiggler type. Defaults to `WigglerType.planar`.
+  - column: 6
+    name: max_field_strength
+    python_type: float
+    default: 0.0
+    description: The maximum strength of the magnetic field.  Units of T/m^n.
+  - column: 7
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: File ID (unused?)
+  - column: 8
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 9
+    name: kx
+    python_type: float
+    default: 0.0
+    description: Wiggler strength.
+  - column: 10
+    name: period
+    python_type: float
+    default: 0.0
+    description: Period of the wiggler.
+  - column: 11
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the x-direction.
+  - column: 12
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the y-direction.
+  - column: 13
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error around the x-axis.
+  - column: 14
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error around the y-axis.
+  - column: 15
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error around the z-axis.
+- type_code: 101
+  name: dtl
+  class_name: DTL
+  category: beamline_element
+  summary: Discrete-Transmission-Line element with specified parameters.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 101
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: Scaling factor for the electrical/magnetic field.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Input field ID (using a simple sinusoidal model if ID<0).
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 10
+    name: quad1_length
+    python_type: float
+    default: 0.0
+    description: Length of the first quadrupole in meters.
+  - column: 11
+    name: quad1_gradient
+    python_type: float
+    default: 0.0
+    description: Gradient of the first quadrupole in Tesla/meter.
+  - column: 12
+    name: quad2_length
+    python_type: float
+    default: 0.0
+    description: Length of the second quadrupole in meters.
+  - column: 13
+    name: quad2_gradient
+    python_type: float
+    default: 0.0
+    description: Gradient of the second quadrupole in Tesla/meter.
+  - column: 14
+    name: q1_misalignment_error_x
+    python_type: float
+    default: 0.0
+  - column: 15
+    name: q1_misalignment_error_y
+    python_type: float
+    default: 0.0
+  - column: 16
+    name: q1_rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 17
+    name: q1_rotation_error_y
+    python_type: float
+    default: 0.0
+  - column: 18
+    name: q1_rotation_error_z
+    python_type: float
+    default: 0.0
+  - column: 19
+    name: q2_misalignment_error_x
+    python_type: float
+    default: 0.0
+  - column: 20
+    name: q2_misalignment_error_y
+    python_type: float
+    default: 0.0
+  - column: 21
+    name: q2_rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 22
+    name: q2_rotation_error_y
+    python_type: float
+    default: 0.0
+  - column: 23
+    name: q2_rotation_error_z
+    python_type: float
+    default: 0.0
+  - column: 24
+    name: rf_misalignment_error_x
+    python_type: float
+    default: 0.0
+  - column: 25
+    name: rf_misalignment_error_y
+    python_type: float
+    default: 0.0
+  - column: 26
+    name: rf_rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 27
+    name: rf_rotation_error_y
+    python_type: float
+    default: 0.0
+  - column: 28
+    name: rf_rotation_error_z
+    python_type: float
+    default: 0.0
+- type_code: 102
+  name: ccdtl
+  class_name: CCDTL
+  category: beamline_element
+  summary: A CCDTL (Cell-Coupled Drift Tube Linac) input element represented by its parameters.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 102
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: Field scaling factor.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Input field ID (if ID<0, use simple sinusoidal model, only works for the
+      map integrator). The phase is the design phase with 0 for maximum energy gain.
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 10
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+  - column: 11
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Y misalignment error in meters.
+  - column: 12
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error around the x-axis in radians.
+  - column: 13
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error around the y-axis in radians.
+  - column: 14
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error around the z-axis in radians.
+- type_code: 103
+  name: ccl
+  class_name: CCL
+  category: beamline_element
+  summary: CCL input element with specific parameters.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 103
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: Field scaling factor.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Input field ID. If ID < 0, use the simple sinusoidal model (only works for
+      the map integrator, phase is the design phase with 0 for maximum energy gain).
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius of the element in meters.
+  - column: 10
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: X-axis misalignment error in meters.
+  - column: 11
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Y-axis misalignment error in meters.
+  - column: 12
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation error about the x-axis in radians.
+  - column: 13
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation error about the y-axis in radians.
+  - column: 14
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation error about the z-axis in radians.
+- type_code: 104
+  name: superconducting_cavity
+  class_name: SuperconductingCavity
+  category: beamline_element
+  summary: ''
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 104
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency in Hz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees (design phase with 0 for maximum energy gain).
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Input field ID (if ID < 0, only works for the map integrator).
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 10
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+  - column: 11
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+  - column: 12
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 13
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+  - column: 14
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+- type_code: 105
+  name: solenoid_with_rf_cavity
+  class_name: SolenoidWithRFCavity
+  category: beamline_element
+  summary: A solenoid with an RF cavity.
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 105
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: The field scaling factor.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: The RF frequency in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: The driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 1.0
+    description: The input field ID.
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the solenoid in meters.
+  - column: 10
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: The x-axis misalignment error in meters.
+  - column: 11
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: The y-axis misalignment error in meters.
+  - column: 12
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: The error in rotation about the x-axis in radians.
+  - column: 13
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: The error in rotation about the y-axis in radians.
+  - column: 14
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: The error in rotation about the z-axis in radians.
+  - column: 15
+    name: bz0
+    python_type: float
+    default: 0.0
+    description: The Bz0 field value in Tesla.
+  - column: 16
+    name: aperture_size_for_wakefield
+    python_type: float
+    default: 0.0
+    description: The aperture size for wakefield computations.
+  - column: 17
+    name: gap_size_for_wakefield
+    python_type: float
+    default: 0.0
+    description: The gap size for the wake field.
+  - column: 18
+    name: length_for_wakefield
+    python_type: float
+    default: 0.0
+    description: The length for wake, indicating RF structure wakefield should be turned on
+      if this value is greater than zero.
+- type_code: 106
+  name: traveling_wave_rf_cavity
+  class_name: TravelingWaveRFCavity
+  category: beamline_element
+  summary: 'Traveling Wave RF Cavity element.
+
+
+    This element represents a traveling wave RF cavity specified by several
+
+    parameters that define its physical and operational characteristics.'
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 106
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: Scaling factor for the field.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency, in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: Input field ID.
+  - column: 9
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius of the cavity in meters.
+  - column: 10
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: X misalignment error in meters.
+  - column: 11
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Y misalignment error in meters.
+  - column: 12
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+    description: Rotation errors in x [rad].
+  - column: 13
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+    description: Rotation errors in x [rad].
+  - column: 14
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+    description: Rotation errors in x [rad].
+  - column: 15
+    name: phase_diff
+    python_type: float
+    default: 0.0
+    description: Phase difference B and A (pi - beta * d).
+  - column: 16
+    name: aperture_size_for_wakefield
+    python_type: float
+    default: 0.0
+    description: Aperture size for wakefield. An aperture size >0 enables the wakefield calculation.
+  - column: 17
+    name: gap_size
+    python_type: float
+    default: 0.0
+    description: Gap size for wakefield.
+  - column: 18
+    name: length_for_wakefield
+    python_type: float
+    default: 0.0
+- type_code: 110
+  name: user_defined_rf_cavity
+  class_name: UserDefinedRFCavity
+  category: beamline_element
+  summary: 'A user-defined RF cavity element in the simulation.
+
+
+    EMfld in IMPACT-Z.'
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: 110
+  - column: 5
+    name: field_scaling
+    python_type: float
+    default: 0.0
+    description: Scaling factor for the field.
+  - column: 6
+    name: rf_frequency
+    python_type: float
+    default: 0.0
+    description: RF frequency in Hertz.
+  - column: 7
+    name: phase_deg
+    python_type: float
+    default: 0.0
+    description: Driven phase in degrees.
+  - column: 8
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: ID of the input field.
+  - column: 9
+    name: radius_x
+    python_type: float
+    default: 0.0
+  - column: 10
+    name: radius_y
+    python_type: float
+    default: 0.0
+    description: Y radius in meters.
+  - column: 11
+    name: misalignment_error_x
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the X direction, in meters.
+  - column: 12
+    name: misalignment_error_y
+    python_type: float
+    default: 0.0
+    description: Misalignment error in the Y direction, in meters.
+  - column: 13
+    name: rotation_error_x
+    python_type: float
+    default: 0.0
+  - column: 14
+    name: rotation_error_y
+    python_type: float
+    default: 0.0
+  - column: 15
+    name: rotation_error_z
+    python_type: float
+    default: 0.0
+  - column: 16
+    name: data_mode
+    python_type: int
+    enum: RFCavityDataMode
+    default: 1
+    description: Mode of using field data. 1.0 uses discrete data only, 2.0 uses both discrete
+      data and analytical function, other values use analytical function only.
+  - column: 17
+    name: coordinate_type
+    python_type: int
+    enum: RFCavityCoordinateType
+    default: 2
+    description: Coordinate type for the field. 2.0 for Cartesian coordinates, 1.0 for Cylindrical
+      coordinates.
+- type_code: -1
+  name: shift_centroid
+  class_name: ShiftCentroid
+  category: control
+  summary: Shift the centroid.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Length of the element in meters.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Number of space-charge kicks through the beamline element. Each "step" consists
+      of a half-step, a space-charge kick, and another half-step.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -1
+- type_code: -2
+  name: write_full
+  class_name: WriteFull
+  category: control
+  summary: Write the particle distribution into a fort.N file.
+  has_input_file: false
+  has_output_file: true
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: file_id
+    python_type: int
+    default: 0
+    description: The File ID.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -2
+  - column: 5
+    name: unused_2
+    python_type: float
+    default: 0.0
+    description: Unused
+    unused: true
+  - column: 6
+    name: sample_frequency
+    python_type: int
+    default: 0
+    description: Write every Nth particle.
+- type_code: -3
+  name: density_profile_input
+  class_name: DensityProfileInput
+  category: control
+  summary: 'Input element: density profile input parameters.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -3
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 6
+    name: xmax
+    python_type: float
+    default: 0.0
+    description: Maximum X in meters.
+  - column: 7
+    name: pxmax
+    python_type: float
+    default: 0.0
+    description: Maximum Px in mc.
+  - column: 8
+    name: ymax
+    python_type: float
+    default: 0.0
+    description: Maximum Y in meters.
+  - column: 9
+    name: pymax
+    python_type: float
+    default: 0.0
+    description: Maximum Py in mc.
+  - column: 10
+    name: zmax
+    python_type: float
+    default: 0.0
+    description: Maximum Z in meters.
+  - column: 11
+    name: pzmax
+    python_type: float
+    default: 0.0
+    description: Maximum Pz in mc^2.
+- type_code: -4
+  name: density_profile
+  class_name: DensityProfile
+  category: control
+  summary: 'Input element: write the density along R, X, Y into files.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -4
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 6
+    name: xmax
+    python_type: float
+    default: 0.0
+    description: Maximum value in X direction in meters.
+  - column: 7
+    name: pxmax
+    python_type: float
+    default: 0.0
+    description: Maximum value in X direction momentum in mc.
+  - column: 8
+    name: ymax
+    python_type: float
+    default: 0.0
+    description: Maximum value in Y direction in meters.
+  - column: 9
+    name: pymax
+    python_type: float
+    default: 0.0
+    description: Maximum value in Y direction momentum in mc.
+  - column: 10
+    name: zmax
+    python_type: float
+    default: 0.0
+    description: Maximum value in Z direction in radians.
+  - column: 11
+    name: pzmax
+    python_type: float
+    default: 0.0
+    description: Maximum value in Z direction momentum in mc^2.
+- type_code: -5
+  name: projection_2_d
+  class_name: Projection2D
+  category: control
+  summary: Represents the 2D projections of a 6D distribution.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -5
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius of the projection.
+  - column: 6
+    name: xmax
+    python_type: float
+    default: 0.0
+    description: The maximum x value.
+  - column: 7
+    name: pxmax
+    python_type: float
+    default: 0.0
+    description: The maximum px value.
+  - column: 8
+    name: ymax
+    python_type: float
+    default: 0.0
+    description: The maximum y value.
+  - column: 9
+    name: pymax
+    python_type: float
+    default: 0.0
+    description: The maximum py value.
+  - column: 10
+    name: zmax
+    python_type: float
+    default: 0.0
+    description: The maximum z value.
+  - column: 11
+    name: pzmax
+    python_type: float
+    default: 0.0
+    description: The maximum pz value.
+- type_code: -6
+  name: density_3_d
+  class_name: Density3D
+  category: control
+  summary: 'Input element: 3D density.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -6
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters.
+  - column: 6
+    name: xmax
+    python_type: float
+    default: 0.0
+    description: Maximum x value in meters.
+  - column: 7
+    name: pxmax
+    python_type: float
+    default: 0.0
+    description: Maximum px value in mc.
+  - column: 8
+    name: ymax
+    python_type: float
+    default: 0.0
+    description: Maximum y value in meters.
+  - column: 9
+    name: pymax
+    python_type: float
+    default: 0.0
+    description: Maximum py value in mc.
+  - column: 10
+    name: zmax
+    python_type: float
+    default: 0.0
+    description: Maximum z value in degrees.
+  - column: 11
+    name: pzmax
+    python_type: float
+    default: 0.0
+    description: Maximum pz value in mc^2.
+- type_code: -7
+  name: write_phase_space_info
+  class_name: WritePhaseSpaceInfo
+  category: control
+  summary: 'Input element: write the 6D phase space information and local computation
+
+    domain information.
+
+
+    Writes to files fort.1000, fort.1001, fort.1002, ...,
+
+    fort.(1000+Nprocessor-1). This function is used for restart purposes.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -7
+- type_code: -8
+  name: write_slice_info
+  class_name: WriteSliceInfo
+  category: control
+  summary: 'Write slice information into file fort.{file_id} using specific slices.
+
+
+    If the twiss mismatch parameters (alpha_x, etc.) are not provided, the
+
+    mismatch factor will be ignored.'
+  has_input_file: false
+  has_output_file: true
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: file_id
+    python_type: int
+    default: 0
+    description: The file ID to write slice information to.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -8
+  - column: 5
+    name: slices
+    python_type: int
+    default: 0
+    description: Number of slices.
+  - column: 6
+    name: alpha_x
+    python_type: float
+    default: 0.0
+    description: Twiss parameter alpha_x at the location.
+  - column: 7
+    name: beta_x
+    python_type: float
+    default: 0.0
+    description: Twiss parameter beta_x at the location (m).
+  - column: 8
+    name: alpha_y
+    python_type: float
+    default: 0.0
+    description: Twiss parameter alpha_y at the location.
+  - column: 9
+    name: beta_y
+    python_type: float
+    default: 0.0
+    description: Twiss parameter beta_y at the location (m).
+- type_code: -10
+  name: scale_mismatch_particle_6_d_coordinates
+  class_name: ScaleMismatchParticle6DCoordinates
+  category: control
+  summary: Scale/mismatch the particle 6D coordinates.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -10
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius, not used in computations.
+  - column: 6
+    name: xmis
+    python_type: float
+    default: 0.0
+    description: The x-coordinate mismatch.
+  - column: 7
+    name: pxmis
+    python_type: float
+    default: 0.0
+    description: The px-coordinate mismatch.
+  - column: 8
+    name: ymis
+    python_type: float
+    default: 0.0
+    description: The y-coordinate mismatch.
+  - column: 9
+    name: pymis
+    python_type: float
+    default: 0.0
+    description: The py-coordinate mismatch.
+  - column: 10
+    name: tmis
+    python_type: float
+    default: 0.0
+    description: The time-coordinate mismatch.
+  - column: 11
+    name: ptmis
+    python_type: float
+    default: 0.0
+    description: The pt-coordinate mismatch.
+- type_code: -12
+  name: external_linear_map_kick
+  class_name: ExternalLinearMapKick
+  category: control
+  summary: 'Apply an instant kick using a 6x6 linear transfer map from an external file.
+
+
+    The map is read from ``fort.N``, where ``N`` is `file_id`. The file
+
+    contains the six rows of the matrix, one row per line. The matrix is
+
+    applied in ``(x [m], x'' [rad], y [m], y'' [rad], z [m], dp/p)``
+
+    coordinates.
+
+
+    Available in IMPACT-Z v2.7+.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: file_id
+    python_type: int
+    default: 0
+    description: The file ID N; the transfer matrix is read from ``fort.N``.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -12
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+- type_code: -13
+  name: collimate_beam
+  class_name: CollimateBeam
+  category: control
+  summary: Collimate the beam with transverse rectangular aperture sizes.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -13
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+  - column: 6
+    name: xmin
+    python_type: float
+    default: 0.0
+    description: Minimum x value in meters.
+  - column: 7
+    name: xmax
+    python_type: float
+    default: 0.0
+    description: Maximum x value in meters.
+  - column: 8
+    name: ymin
+    python_type: float
+    default: 0.0
+    description: Minimum y value in meters.
+  - column: 9
+    name: ymax
+    python_type: float
+    default: 0.0
+    description: Maximum y value in meters.
+- type_code: -14
+  name: toggle_space_charge
+  class_name: ToggleSpaceCharge
+  category: control
+  summary: Toggle space charge. Available in IMPACT-Z v2.5+.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -14
+  - column: 5
+    name: unused
+    python_type: float
+    default: 0.0
+    description: Not used.
+    unused: true
+  - column: 6
+    name: enable
+    python_type: float | bool
+    default: false
+    description: Toggle space charge on or off.
+- type_code: -16
+  name: rotate_beam_x
+  class_name: RotateBeamX
+  category: control
+  summary: 'Instantly rotate the beam about the horizontal x-axis.
+
+
+    Both positions and momenta are rotated, using the longitudinal momentum
+
+    of each particle.
+
+
+    Available in IMPACT-Z v2.7+.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -16
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+  - column: 6
+    name: angle
+    python_type: float
+    default: 0.0
+    description: The rotation angle in radians (counter-clockwise for the beam, i.e. clockwise
+      for the reference coordinate system).
+- type_code: -17
+  name: rotate_beam_y
+  class_name: RotateBeamY
+  category: control
+  summary: 'Instantly rotate the beam about the vertical y-axis.
+
+
+    Both positions and momenta are rotated, using the longitudinal momentum
+
+    of each particle.
+
+
+    Available in IMPACT-Z v2.7+.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -17
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+  - column: 6
+    name: angle
+    python_type: float
+    default: 0.0
+    description: The rotation angle in radians (counter-clockwise for the beam, i.e. clockwise
+      for the reference coordinate system).
+- type_code: -18
+  name: rotate_beam
+  class_name: RotateBeam
+  category: control
+  summary: 'Rotate the beam with respect to the longitudinal axis.
+
+
+    Both (x,y), and (px,py) are rotated.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -18
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius in meters.
+  - column: 6
+    name: tilt
+    python_type: float
+    default: 0.0
+    description: The rotation angle in radians.
+- type_code: -19
+  name: beam_shift
+  class_name: BeamShift
+  category: control
+  summary: BeamShift shifts the beam longitudinally to the bunch centroid.so that <dt>=<dE>=0.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -19
+  - column: 5
+    name: unused
+    python_type: float
+    default: 0.0
+    unused: true
+- type_code: -20
+  name: beam_energy_spread
+  class_name: BeamEnergySpread
+  category: control
+  summary: 'Input element: a beam energy spread input element.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -20
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: The radius (not used).
+  - column: 6
+    name: energy_spread
+    python_type: float
+    default: 0.0
+    description: The increased energy spread in eV.
+- type_code: -21
+  name: shift_beam_centroid
+  class_name: ShiftBeamCentroid
+  category: control
+  summary: Shift the beam centroid in 6D phase space.
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -21
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+  - column: 6
+    name: xshift
+    python_type: float
+    default: 0.0
+    description: Shift in x direction in meters.
+  - column: 7
+    name: pxshift
+    python_type: float
+    default: 0.0
+    description: Shift in x momentum in radians.
+  - column: 8
+    name: yshift
+    python_type: float
+    default: 0.0
+    description: Shift in y direction in meters.
+  - column: 9
+    name: pyshift
+    python_type: float
+    default: 0.0
+    description: Shift in y momentum in radians.
+  - column: 10
+    name: zshift
+    python_type: float
+    default: 0.0
+    description: Shift in z direction in degrees.
+  - column: 11
+    name: pzshift
+    python_type: float
+    default: 0.0
+    description: Shift in z momentum in MeV.
+- type_code: -25
+  name: integrator_type_switch
+  class_name: IntegratorTypeSwitch
+  category: control
+  summary: 'Input element: switch the integrator type.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: integrator_type
+    python_type: int
+    enum: IntegratorType
+    default: 1
+    description: Integrator type.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -25
+  - column: 5
+    name: unused
+    python_type: float
+    default: 0.0
+    unused: true
+- type_code: -40
+  name: beam_kicker_by_rf_nonlinearity
+  class_name: BeamKickerByRFNonlinearity
+  category: control
+  summary: 'Beam kicker element that applies a longitudinal kick to the beam by the RF
+
+    nonlinearity.
+
+
+    Note that the linear part has been included in the map integrator and
+
+    subtracted.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -40
+  - column: 5
+    name: radius
+    python_type: float
+    default: 0.0
+    description: Radius in meters (not used).
+  - column: 6
+    name: vmax
+    python_type: float
+    default: 0.0
+    description: Maximum voltage in volts (V).
+  - column: 7
+    name: phi0
+    python_type: float
+    default: 0.0
+    description: Initial phase offset in degrees.
+  - column: 8
+    name: harm
+    python_type: int
+    default: 0
+    description: Harmonic number with respect to the reference frequency.
+- type_code: -41
+  name: rfcavity_structure_wakefield
+  class_name: RfcavityStructureWakefield
+  category: control
+  summary: 'Input element: read in RF cavity structure wakefield.'
+  has_input_file: true
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -41
+  - column: 5
+    name: unused
+    python_type: float
+    default: 1.0
+    unused: true
+  - column: 6
+    name: file_id
+    python_type: float
+    default: 0.0
+    description: The file ID to load from.
+  - column: 7
+    name: enable_wakefield
+    python_type: float
+    default: 0.0
+    description: -1.0 RF off, 1.0 RF on, < 10 no transverse wakefield effects included
+- type_code: -44
+  name: thin_lens_rf_deflector
+  class_name: ThinLensRFDeflector
+  category: control
+  summary: 'Apply a thin-lens RF deflecting cavity kick.
+
+
+    This is a transverse-longitudinal coupling (crab-cavity-like) kick: the
+
+    transverse momentum is kicked proportional to the longitudinal offset,
+
+    and the particle energy proportional to the transverse offset:
+
+    ``px [mc] += strength * z [m] * gamma*beta`` and
+
+    ``pt [mc^2] -= strength * x [m] * gamma`` (or ``y``/``py`` for vertical
+
+    deflection).
+
+
+    Available in IMPACT-Z v2.7+.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -44
+  - column: 5
+    name: strength
+    python_type: float
+    default: 0.0
+    description: The integrated deflecting strength in 1/m.
+  - column: 6
+    name: direction
+    python_type: float
+    default: 0.0
+    description: 'Deflection direction switch: >= 0 for horizontal, < 0 for vertical.'
+- type_code: -52
+  name: energy_modulation
+  class_name: EnergyModulation
+  category: control
+  summary: 'Input element: energy modulation (emulate laser heater).'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -52
+  - column: 5
+    name: beam_size
+    python_type: float
+    default: 0.0
+    description: The matched beam size in meters.
+  - column: 6
+    name: laser_wavelength
+    python_type: float
+    default: 0.0
+    description: The laser wavelength in meters.
+  - column: 7
+    name: energy_spread
+    python_type: float
+    default: 0.0
+    description: The uncorrelated energy spread in eV.
+- type_code: -55
+  name: kick_beam_using_multipole
+  class_name: KickBeamUsingMultipole
+  category: control
+  summary: 'Input element: kick the beam using thin lens multipole.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Number of "map steps". Each half-step involves computing a map for that half-element
+      which is computed by numerical integration.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -55
+  - column: 5
+    name: unused
+    python_type: float
+    default: 0.0
+    description: First parameter, "1.0" not used.
+    unused: true
+  - column: 6
+    name: k0
+    python_type: float
+    default: 0.0
+    description: Dipole strength.
+  - column: 7
+    name: k1
+    python_type: float
+    default: 0.0
+    description: Quadrupole strength.
+  - column: 8
+    name: k2
+    python_type: float
+    default: 0.0
+    description: Sextupole strength.
+  - column: 9
+    name: k3
+    python_type: float
+    default: 0.0
+    description: Octupole strength.
+  - column: 10
+    name: k4
+    python_type: float
+    default: 0.0
+    description: Decapole strength.
+  - column: 11
+    name: k5
+    python_type: float
+    default: 0.0
+    description: Dodecapole strength.
+- type_code: -99
+  name: halt_execution
+  class_name: HaltExecution
+  category: control
+  summary: 'Halt execution at this point in the input file.
+
+
+    This is useful if you have a big file and want to run part-way through it
+
+    without deleting a lot of lines.'
+  has_input_file: false
+  has_output_file: false
+  parameters:
+  - column: 1
+    name: length
+    python_type: float
+    default: 0.0
+    description: Unused.
+  - column: 2
+    name: steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 3
+    name: map_steps
+    python_type: int
+    default: 0
+    description: Unused.
+  - column: 4
+    name: type_id
+    python_type: int
+    value: -99
