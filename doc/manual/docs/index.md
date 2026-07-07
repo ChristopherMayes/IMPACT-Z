@@ -31,10 +31,8 @@ This manual documents **IMPACT-Z version 2.7.1**.
 The reference sections of this manual are generated from a machine-readable
 specification of the input format,
 [`spec/impactz.yaml`](https://github.com/impact-lbl/IMPACT-Z/tree/master/doc/manual/spec),
-which is cross-checked against the Fortran source. The same specification is
-used by the [LUME-Impact](https://github.com/ChristopherMayes/lume-impact)
-Python package, which provides a modern interface for composing input,
-running IMPACT-Z, and analyzing output.
+which is cross-checked against the Fortran source. External tools can parse
+the same specification to interpret or compose IMPACT-Z input files.
 
 - [The input file](input_file.md) — structure of `ImpactZ.in` and the
   auxiliary input files.

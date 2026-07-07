@@ -12,11 +12,6 @@ where `type` selects the element and the remaining columns are the
 parameters listed below. Trailing parameters may be omitted; they
 default to zero. The `/` terminates the line.
 
-!!! note "LUME-Impact"
-    The *class* named for each element is the corresponding Python class
-    in [LUME-Impact](https://github.com/ChristopherMayes/lume-impact)'s
-    `impact.z` subpackage.
-
 Positive type codes are physical beamline elements; negative type codes
 are zero-length control and diagnostic operations. A negative type code
 not listed below is **silently ignored** by IMPACT-Z v2.7.1 (no warning
@@ -71,7 +66,7 @@ current version!" and stops the run.
 
 ### drift
 
-**Type code: `0`** &nbsp;&middot;&nbsp; LUME-Impact class: `Drift`
+**Type code: `0`**
 
 Drift element.
 
@@ -87,7 +82,7 @@ Drift element.
 
 ### quadrupole
 
-**Type code: `1`** &nbsp;&middot;&nbsp; LUME-Impact class: `Quadrupole`
+**Type code: `1`**
 
 A quadrupole element.
 
@@ -110,7 +105,7 @@ This element can read an external input file (see `file_id` below).
 
 ### constant_focusing
 
-**Type code: `2`** &nbsp;&middot;&nbsp; LUME-Impact class: `ConstantFocusing`
+**Type code: `2`**
 
 3D constant focusing.
 
@@ -127,7 +122,7 @@ This element can read an external input file (see `file_id` below).
 
 ### solenoid
 
-**Type code: `3`** &nbsp;&middot;&nbsp; LUME-Impact class: `Solenoid`
+**Type code: `3`**
 
 Solenoid used in beam dynamics simulations.
 
@@ -150,7 +145,7 @@ This element can read an external input file (see `file_id` below).
 
 ### dipole
 
-**Type code: `4`** &nbsp;&middot;&nbsp; LUME-Impact class: `Dipole`
+**Type code: `4`**
 
 Represents a dipole element used in beam simulations.
 
@@ -179,7 +174,7 @@ This element can read an external input file (see `file_id` below).
 
 ### multipole
 
-**Type code: `5`** &nbsp;&middot;&nbsp; LUME-Impact class: `Multipole`
+**Type code: `5`**
 
 Represents a multipole element used in beam simulations.
 
@@ -203,7 +198,7 @@ This element can read an external input file (see `file_id` below).
 
 ### wiggler
 
-**Type code: `6`** &nbsp;&middot;&nbsp; LUME-Impact class: `Wiggler`
+**Type code: `6`**
 
 Represents a planar or helical wiggler element used in beam simulations.
 
@@ -229,7 +224,7 @@ Only supports the integrator type `IntegratorType.runge_kutta`.
 
 ### dtl
 
-**Type code: `101`** &nbsp;&middot;&nbsp; LUME-Impact class: `DTL`
+**Type code: `101`**
 
 Discrete-Transmission-Line element with specified parameters.
 
@@ -268,7 +263,7 @@ This element can read an external input file (see `file_id` below).
 
 ### ccdtl
 
-**Type code: `102`** &nbsp;&middot;&nbsp; LUME-Impact class: `CCDTL`
+**Type code: `102`**
 
 A CCDTL (Cell-Coupled Drift Tube Linac) input element represented by its parameters.
 
@@ -293,7 +288,7 @@ This element can read an external input file (see `file_id` below).
 
 ### ccl
 
-**Type code: `103`** &nbsp;&middot;&nbsp; LUME-Impact class: `CCL`
+**Type code: `103`**
 
 CCL input element with specific parameters.
 
@@ -318,7 +313,7 @@ This element can read an external input file (see `file_id` below).
 
 ### superconducting_cavity
 
-**Type code: `104`** &nbsp;&middot;&nbsp; LUME-Impact class: `SuperconductingCavity`
+**Type code: `104`**
 
 This element can read an external input file (see `file_id` below).
 
@@ -341,7 +336,7 @@ This element can read an external input file (see `file_id` below).
 
 ### solenoid_with_rf_cavity
 
-**Type code: `105`** &nbsp;&middot;&nbsp; LUME-Impact class: `SolenoidWithRFCavity`
+**Type code: `105`**
 
 A solenoid with an RF cavity.
 
@@ -370,7 +365,7 @@ This element can read an external input file (see `file_id` below).
 
 ### traveling_wave_rf_cavity
 
-**Type code: `106`** &nbsp;&middot;&nbsp; LUME-Impact class: `TravelingWaveRFCavity`
+**Type code: `106`**
 
 Traveling Wave RF Cavity element.
 
@@ -402,7 +397,7 @@ This element can read an external input file (see `file_id` below).
 
 ### user_defined_rf_cavity
 
-**Type code: `110`** &nbsp;&middot;&nbsp; LUME-Impact class: `UserDefinedRFCavity`
+**Type code: `110`**
 
 A user-defined RF cavity element in the simulation.
 
@@ -434,7 +429,7 @@ This element can read an external input file (see `file_id` below).
 
 ### shift_centroid
 
-**Type code: `-1`** &nbsp;&middot;&nbsp; LUME-Impact class: `ShiftCentroid`
+**Type code: `-1`**
 
 Shift the centroid.
 
@@ -447,7 +442,7 @@ Shift the centroid.
 
 ### write_full
 
-**Type code: `-2`** &nbsp;&middot;&nbsp; LUME-Impact class: `WriteFull`
+**Type code: `-2`**
 
 Write the particle distribution into a fort.N file.
 
@@ -462,7 +457,7 @@ Write the particle distribution into a fort.N file.
 
 ### density_profile_input
 
-**Type code: `-3`** &nbsp;&middot;&nbsp; LUME-Impact class: `DensityProfileInput`
+**Type code: `-3`**
 
 Write the accumulated density along R, X, and Y into files
 RadDens.data, Xprof.data, and Yprof.data.
@@ -486,7 +481,7 @@ momentum/longitudinal frame parameters are accepted but unused.
 
 ### density_profile
 
-**Type code: `-4`** &nbsp;&middot;&nbsp; LUME-Impact class: `DensityProfile`
+**Type code: `-4`**
 
 Input element: write the density along R, X, Y into files.
 
@@ -506,7 +501,7 @@ Input element: write the density along R, X, Y into files.
 
 ### projection_2_d
 
-**Type code: `-5`** &nbsp;&middot;&nbsp; LUME-Impact class: `Projection2D`
+**Type code: `-5`**
 
 Represents the 2D projections of a 6D distribution.
 
@@ -526,7 +521,7 @@ Represents the 2D projections of a 6D distribution.
 
 ### density_3_d
 
-**Type code: `-6`** &nbsp;&middot;&nbsp; LUME-Impact class: `Density3D`
+**Type code: `-6`**
 
 Write the 3D density into file fort.8.
 
@@ -551,7 +546,7 @@ previously processed element. Treat the parameters below as the intent.
 
 ### write_phase_space_info
 
-**Type code: `-7`** &nbsp;&middot;&nbsp; LUME-Impact class: `WritePhaseSpaceInfo`
+**Type code: `-7`**
 
 Input element: write the 6D phase space information and local computation
 domain information.
@@ -569,7 +564,7 @@ fort.(file_id+Nprocessor-1), one per processor (file_id is typically
 
 ### write_slice_info
 
-**Type code: `-8`** &nbsp;&middot;&nbsp; LUME-Impact class: `WriteSliceInfo`
+**Type code: `-8`**
 
 Write slice information into file fort.{file_id} using specific slices.
 
@@ -590,7 +585,7 @@ mismatch factor will be ignored.
 
 ### scale_mismatch_particle_6_d_coordinates
 
-**Type code: `-10`** &nbsp;&middot;&nbsp; LUME-Impact class: `ScaleMismatchParticle6DCoordinates`
+**Type code: `-10`**
 
 Scale/mismatch the particle 6D coordinates.
 
@@ -610,7 +605,7 @@ Scale/mismatch the particle 6D coordinates.
 
 ### external_linear_map_kick
 
-**Type code: `-12`** &nbsp;&middot;&nbsp; LUME-Impact class: `ExternalLinearMapKick`
+**Type code: `-12`**
 
 Apply an instant kick using a 6x6 linear transfer map from an external file.
 
@@ -631,7 +626,7 @@ Available in IMPACT-Z v2.7+.
 
 ### collimate_beam
 
-**Type code: `-13`** &nbsp;&middot;&nbsp; LUME-Impact class: `CollimateBeam`
+**Type code: `-13`**
 
 Collimate the beam with transverse rectangular aperture sizes.
 
@@ -649,7 +644,7 @@ Collimate the beam with transverse rectangular aperture sizes.
 
 ### toggle_space_charge
 
-**Type code: `-14`** &nbsp;&middot;&nbsp; LUME-Impact class: `ToggleSpaceCharge`
+**Type code: `-14`**
 
 Toggle space charge. Available in IMPACT-Z v2.5+.
 
@@ -664,7 +659,7 @@ Toggle space charge. Available in IMPACT-Z v2.5+.
 
 ### rotate_beam_x
 
-**Type code: `-16`** &nbsp;&middot;&nbsp; LUME-Impact class: `RotateBeamX`
+**Type code: `-16`**
 
 Instantly rotate the beam about the horizontal x-axis.
 
@@ -684,7 +679,7 @@ Available in IMPACT-Z v2.7+.
 
 ### rotate_beam_y
 
-**Type code: `-17`** &nbsp;&middot;&nbsp; LUME-Impact class: `RotateBeamY`
+**Type code: `-17`**
 
 Instantly rotate the beam about the vertical y-axis.
 
@@ -704,7 +699,7 @@ Available in IMPACT-Z v2.7+.
 
 ### rotate_beam
 
-**Type code: `-18`** &nbsp;&middot;&nbsp; LUME-Impact class: `RotateBeam`
+**Type code: `-18`**
 
 Rotate the beam with respect to the longitudinal axis.
 
@@ -721,7 +716,7 @@ Both (x,y), and (px,py) are rotated.
 
 ### beam_shift
 
-**Type code: `-19`** &nbsp;&middot;&nbsp; LUME-Impact class: `BeamShift`
+**Type code: `-19`**
 
 BeamShift shifts the beam longitudinally to the bunch centroid.so that <dt>=<dE>=0.
 
@@ -735,7 +730,7 @@ BeamShift shifts the beam longitudinally to the bunch centroid.so that <dt>=<dE>
 
 ### beam_energy_spread
 
-**Type code: `-20`** &nbsp;&middot;&nbsp; LUME-Impact class: `BeamEnergySpread`
+**Type code: `-20`**
 
 Input element: a beam energy spread input element.
 
@@ -750,7 +745,7 @@ Input element: a beam energy spread input element.
 
 ### shift_beam_centroid
 
-**Type code: `-21`** &nbsp;&middot;&nbsp; LUME-Impact class: `ShiftBeamCentroid`
+**Type code: `-21`**
 
 Shift the beam centroid in 6D phase space.
 
@@ -770,7 +765,7 @@ Shift the beam centroid in 6D phase space.
 
 ### integrator_type_switch
 
-**Type code: `-25`** &nbsp;&middot;&nbsp; LUME-Impact class: `IntegratorTypeSwitch`
+**Type code: `-25`**
 
 Input element: switch the integrator type.
 
@@ -784,7 +779,7 @@ Input element: switch the integrator type.
 
 ### beam_kicker_by_rf_nonlinearity
 
-**Type code: `-40`** &nbsp;&middot;&nbsp; LUME-Impact class: `BeamKickerByRFNonlinearity`
+**Type code: `-40`**
 
 Beam kicker element that applies a longitudinal kick to the beam by the RF
 nonlinearity.
@@ -805,7 +800,7 @@ subtracted.
 
 ### rfcavity_structure_wakefield
 
-**Type code: `-41`** &nbsp;&middot;&nbsp; LUME-Impact class: `RfcavityStructureWakefield`
+**Type code: `-41`**
 
 Input element: read in RF cavity structure wakefield.
 
@@ -823,7 +818,7 @@ This element can read an external input file (see `file_id` below).
 
 ### thin_lens_rf_deflector
 
-**Type code: `-44`** &nbsp;&middot;&nbsp; LUME-Impact class: `ThinLensRFDeflector`
+**Type code: `-44`**
 
 Apply a thin-lens RF deflecting cavity kick.
 
@@ -847,7 +842,7 @@ Available in IMPACT-Z v2.7+.
 
 ### energy_modulation
 
-**Type code: `-52`** &nbsp;&middot;&nbsp; LUME-Impact class: `EnergyModulation`
+**Type code: `-52`**
 
 Input element: energy modulation (emulate laser heater).
 
@@ -863,7 +858,7 @@ Input element: energy modulation (emulate laser heater).
 
 ### kick_beam_using_multipole
 
-**Type code: `-55`** &nbsp;&middot;&nbsp; LUME-Impact class: `KickBeamUsingMultipole`
+**Type code: `-55`**
 
 Input element: kick the beam using thin lens multipole.
 
@@ -883,7 +878,7 @@ Input element: kick the beam using thin lens multipole.
 
 ### halt_execution
 
-**Type code: `-99`** &nbsp;&middot;&nbsp; LUME-Impact class: `HaltExecution`
+**Type code: `-99`**
 
 Halt execution at this point in the input file.
 

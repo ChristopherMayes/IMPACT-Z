@@ -83,11 +83,6 @@ def write_elements(spec: dict) -> None:
         "parameters listed below. Trailing parameters may be omitted; they",
         "default to zero. The `/` terminates the line.",
         "",
-        '!!! note "LUME-Impact"',
-        "    The *class* named for each element is the corresponding Python class",
-        "    in [LUME-Impact](https://github.com/ChristopherMayes/lume-impact)'s",
-        "    `impact.z` subpackage.",
-        "",
         "Positive type codes are physical beamline elements; negative type codes",
         "are zero-length control and diagnostic operations. A negative type code",
         "not listed below is **silently ignored** by IMPACT-Z v2.7.1 (no warning",
@@ -120,11 +115,7 @@ def write_elements(spec: dict) -> None:
         out += [f"## {title}", ""]
         for ele in elements:
             out += [f"### {ele['name']}", ""]
-            out += [
-                f"**Type code: `{ele['type_code']}`** &nbsp;&middot;&nbsp; "
-                f"LUME-Impact class: `{ele['class_name']}`",
-                "",
-            ]
+            out += [f"**Type code: `{ele['type_code']}`**", ""]
             if ele.get("summary"):
                 out += [ele["summary"], ""]
             if ele.get("has_input_file"):

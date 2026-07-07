@@ -68,20 +68,6 @@ complete `ImpactZ.in` and any required auxiliary files (`rfdata*.in`,
 `particle.in`). `examples/Example1` also includes reference output files
 for comparison.
 
-## Running via LUME-Impact
-
-The [LUME-Impact](https://github.com/ChristopherMayes/lume-impact) Python
-package can generate `ImpactZ.in` programmatically, run the code, and parse
-all output into structured Python objects:
-
-```python
-from impact.z import ImpactZ, ImpactZInput
-
-input = ImpactZInput.from_file("ImpactZ.in")
-I = ImpactZ(input)
-output = I.run()
-```
-
 ## Utility programs
 
 - `utilities/RFcoef.f90` — prepares Fourier expansion coefficients of RF or
