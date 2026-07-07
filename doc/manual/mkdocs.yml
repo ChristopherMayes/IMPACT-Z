@@ -1,0 +1,46 @@
+site_name: IMPACT-Z Manual
+site_description: User manual for IMPACT-Z, a 3D parallel particle-in-cell beam dynamics code
+repo_url: https://github.com/impact-lbl/IMPACT-Z
+repo_name: impact-lbl/IMPACT-Z
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Input:
+      - The input file: input_file.md
+      - Header reference: reference/header.md
+      - Element reference: reference/elements.md
+      - Enumerations: reference/enums.md
+  - Running IMPACT-Z: running.md
+  - Output files: output_files.md
+  - Units and coordinates: units.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.keys
+  - pymdownx.superfences
